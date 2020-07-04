@@ -6,3 +6,9 @@
 
 (string-append (substring str 0 i)
                (substring str (+ i 1)))
+
+; Which values for i are legitimate?
+
+; If one were to use i directly, the valid range for i is 0 to 10,
+; i.e. up to and including the length of the string.
+; The way i is used here ("(+ i 1)") 0 to 9 is the valid range.
