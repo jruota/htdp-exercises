@@ -43,4 +43,4 @@
                       (read-file in-lst)
                       (read-file in-signature))))
 
-(main "in-fst.txt" "in-lst.txt" "in-signature.txt" "out.txt")
+(main "ex31in-fst.txt" "ex31in-lst.txt" "ex31in-signature.txt" "ex31out.txt")
