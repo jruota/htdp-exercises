@@ -1,0 +1,10 @@
+ 1) Heart Attack
+ 2) Low / high blood sugar
+ 3) Overheating
+ 4) Hypothermia
+ 5) Cancer markers
+ 6) Viral infection
+ 7) High / low blood pressure
+ 8) High / low heart rate
+ 9) Alcohol intoxication
+10) Blood oxygen levels
