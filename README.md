@@ -1,5 +1,5 @@
 # htdp-exercises
-My solutions to the exercises in How to Design Programs
+My solutions to the exercises in [How to Design Programs](https://htdp.org/)
 
 After accidentally deleting all files (up to and including exercise 211) they will have to be redone. 
 To have a backup in case something like this happens again, this repository was created.
