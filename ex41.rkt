@@ -41,8 +41,20 @@
              (* -1 WHEEL-RADIUS)
              (above CABIN CHASSIS)))
 
-(define BACKGROUND (empty-scene WIDTH-OF-WORLD
-                                (+ (image-height CAR) (* 2 WHEEL-RADIUS))))
+(define tree
+  (underlay/xy (circle (* 2 WHEEL-RADIUS) "solid" "green")
+               (* 9/5 WHEEL-RADIUS) (* 3 WHEEL-RADIUS)
+               (rectangle (* 2/5 WHEEL-RADIUS) (* 4 WHEEL-RADIUS)
+                          "solid" "brown")))
+
+(define HEIGHT (+ (max (image-height CAR)
+                       (image-height tree))
+                  (* 2 WHEEL-RADIUS)))
+
+(define BACKGROUND (place-image tree
+                                (* 1/2 WIDTH-OF-WORLD)
+                                (- HEIGHT (* 1/2 (image-height tree)))
+                                (empty-scene WIDTH-OF-WORLD HEIGHT)))
 
 (define Y-CAR (- (image-height BACKGROUND) (* 1/2 (image-height CAR))))
 
