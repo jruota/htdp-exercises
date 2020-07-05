@@ -38,7 +38,7 @@
              "bottom"
              BOTH-WHEELS
              0
-            (* -1 WHEEL-RADIUS)
+             (* -1 WHEEL-RADIUS)
              (above CABIN CHASSIS)))
 
 (define BACKGROUND (empty-scene WIDTH-OF-WORLD
