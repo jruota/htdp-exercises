@@ -50,7 +50,8 @@
 
 ; A WorldState is a Number.
 ; interpretation the number of pixels between
-; the left border of the scene and the car
+; the left border of the scene and
+; the right edge of the car
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
