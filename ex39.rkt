@@ -10,7 +10,7 @@
 ; ENTRY POINT
 (define WHEEL-RADIUS 5)
 
-(define WHEEL-DISTANCE (* WHEEL-RADIUS 5))
+(define WHEEL-DISTANCE (* WHEEL-RADIUS 3))
 
 ; GRAPHICAL CONSTANTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -24,10 +24,13 @@
   (beside WHEEL SPACE WHEEL))
 
 (define CHASSIS
-  (rectangle (* WHEEL-RADIUS 11) (* 2 WHEEL-RADIUS) "solid" "red"))
+  (rectangle (+ WHEEL-DISTANCE (* 6 WHEEL-RADIUS))
+             (* 2 WHEEL-RADIUS)
+             "solid" "red"))
+
 (define CABIN
   (rectangle (+ (image-width SPACE) (* 2 WHEEL-RADIUS))
-             (* 2 WHEEL-RADIUS)
+             (* 1 WHEEL-RADIUS)
              "solid" "red"))
 
 (define CAR (overlay/align/offset
@@ -38,4 +41,12 @@
             (* -1 WHEEL-RADIUS)
              (above CABIN CHASSIS)))
 
-CAR
+(define BACKGROUND (empty-scene WIDTH-OF-WORLD
+                                (+ (* 2 WHEEL-RADIUS) (image-height CAR))))
+
+(define Y-CAR (- (image-height BACKGROUND) (* 1/2 (image-height CAR))))
+
+(place-image CAR
+             (* 1/2 WIDTH-OF-WORLD)
+             Y-CAR
+             BACKGROUND)
