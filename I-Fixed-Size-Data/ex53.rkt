@@ -28,7 +28,7 @@
 ; LR = 0
 (place-image ROCKET
              (* 1/2 WIDTH)
-             (- HEIGHT CENTER HEIGHT)
+             (- 0 CENTER)
              BACKG)
 
 ; LR = HEIGHT
@@ -46,5 +46,5 @@
 ; LR = (* 1/2 HEIGHT)
 (place-image ROCKET
              (* 1/2 WIDTH)
-             (- HEIGHT CENTER (* 1/2 HEIGHT))
+             (- (* 1/2 HEIGHT) CENTER)
              BACKG)
