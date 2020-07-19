@@ -7,7 +7,7 @@
 ; Interpretation:
 ;     All lowercase, three letter words.
 
-; A 1SoF is one of:
+; A 1SoF (1String or #false) is one of:
 ;     – the lowercase letters "a" through "z"
 ;     – #false
 ; Interpretation:
