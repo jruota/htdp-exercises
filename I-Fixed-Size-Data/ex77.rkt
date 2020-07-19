@@ -2,7 +2,7 @@
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname ex77) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (define-struct pitsm [h m s])
-; A PITSM is a structure:
+; A PITSM (points in time since midnight) is a structure:
 ;    (make-pitsm Number Number Number)
 ; The following restrictions apply:
 ;     – first number 0 <= n <= 23
