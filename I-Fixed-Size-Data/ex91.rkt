@@ -291,7 +291,7 @@
 255 255 -1 -1 0 1 #"\0"
 0 -1 1 #"\0"
 1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1.0 1.0 1.0 1.0 1.0 1.0 0 0 0 0 0 0
-0 -1           0 1343 0 4 3 85
+0 -1           0 1344 0 4 3 85
 (4
  #";; The first three lines of this file were inserted by DrRacket. The"
  #"y record metadata"
@@ -1813,7 +1813,8 @@
 0 0 25 29 1 #"\n"
 0 0 17 3 46 #"; NOTE - - - - - - - - - - - - - - - - - - - -"
 0 0 25 29 1 #"\n"
-0 0 17 3 43 #"; The tock-hap function makes sure that the"
+0 0 17 3 12 #"; The change"
+0 0 17 3 33 #"-hap function makes sure that the"
 0 0 25 29 1 #"\n"
 0 0 17 3 45 #"; happiness value never falls under the value"
 0 0 25 29 1 #"\n"
