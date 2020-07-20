@@ -4,7 +4,7 @@
 (define-struct vcat [x hap])
 ; A VCat is a structure:
 ;     (make-vcat Number Number)
-; where the following condition applys:
+; where the following condition applies:
 ;     – hap is a number greater or equal to 0.
 ; Interpretation:
 ;     The cat's current x-coordinate

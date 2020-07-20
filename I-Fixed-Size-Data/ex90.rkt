@@ -291,7 +291,7 @@
 255 255 -1 -1 0 1 #"\0"
 0 -1 1 #"\0"
 1.0 0 -1 -1 -1 -1 -1 -1 0 0 0 0 0 0 1.0 1.0 1.0 1.0 1.0 1.0 0 0 0 0 0 0
-0 -1           0 1034 0 4 3 85
+0 -1           0 1035 0 4 3 85
 (4
  #";; The first three lines of this file were inserted by DrRacket. The"
  #"y record metadata"
@@ -340,7 +340,8 @@
 0 0 25 29 1 #"\n"
 0 0 17 3 31 #";     (make-vcat Number Number)"
 0 0 25 29 1 #"\n"
-0 0 17 3 39 #"; where the following condition applys:"
+0 0 17 3 38 #"; where the following condition applie"
+0 0 17 3 2 #"s:"
 0 0 25 29 1 #"\n"
 0 0 17 3 48 #";     \342\200\223 hap is a number greater or equal to 0."
 0 0 25 29 1 #"\n"
