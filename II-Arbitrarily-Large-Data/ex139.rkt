@@ -24,8 +24,8 @@
 ; The function hast to return #true
 ; for the empty list, otherwise
 ; the recursive calls for lists
-; with one positive element would not
-; work.
+; with only positive elements would
+; not work.
 ; END NOTE - - - - - - - - - - - - - - -
 
 ; Determine whether all elements of
