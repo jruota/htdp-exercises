@@ -8,6 +8,8 @@
 ; – (cons CTemperature NEList-of-temperatures)
 ; interpretation non-empty lists of Celsius temperatures
 
+; A CTemperature is a Number greater than -272.
+
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; NEList-of-temperatures -> Number
