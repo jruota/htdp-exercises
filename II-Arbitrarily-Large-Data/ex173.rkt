@@ -144,13 +144,14 @@
                      (collapse-words (rest los))))]))
 
 ; String -> String
-; Remove the trailing whitespace (" ", "\n", "\t")
+; Remove the trailing whitespace (" ", "\n", "\t" "\r")
 ; from s.
 (define (remove-trailing-whitespace s)
   (cond
     [(or (string=? (string-last s) " ")
          (string=? (string-last s) "\n")
-         (string=? (string-last s) "\t"))
+         (string=? (string-last s) "\t")
+         (string=? (string-last s) "\r"))
      (remove-trailing-whitespace (substring s 0 (sub1 (string-length s))))]
     [else s]))
 

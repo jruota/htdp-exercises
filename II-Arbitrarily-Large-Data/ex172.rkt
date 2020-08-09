@@ -121,13 +121,14 @@
               "In the fell clutch of circumstance,")
 
 ; String -> String
-; Remove the trailing whitespace (" ", "\n", "\t")
+; Remove the trailing whitespace (" ", "\n", "\t" "\r")
 ; from s.
 (define (remove-trailing-whitespace s)
   (cond
     [(or (string=? (string-last s) " ")
          (string=? (string-last s) "\n")
-         (string=? (string-last s) "\t"))
+         (string=? (string-last s) "\t")
+         (string=? (string-last s) "\r"))
      (remove-trailing-whitespace (substring s 0 (sub1 (string-length s))))]
     [else s]))
 
@@ -137,9 +138,11 @@
               "hello world")
 (check-expect (remove-trailing-whitespace "hello world\n\n\n")
               "hello world")
+(check-expect (remove-trailing-whitespace "hello world\r\r\r\r")
+              "hello world")
 (check-expect (remove-trailing-whitespace "hello world\t\t")
               "hello world")
-(check-expect (remove-trailing-whitespace "hello world \t  \n")
+(check-expect (remove-trailing-whitespace "hello world \t  \n \r")
               "hello world")
 
 ; String -> 1String
