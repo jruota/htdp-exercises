@@ -12,4 +12,4 @@
 
 ; Find out from the documentation whether third and fourth exist.
 
-; The function "first" through "eighth" exist.
+; The function "first" through "tenth" exist.
