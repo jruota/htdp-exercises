@@ -23,15 +23,38 @@
 ; Produce the list of all prefixes. A list p
 ; is a prefix of l if p and l are the same up
 ; through all items in p.
+(define (prefix lo1s)
+  (cond
+    [(empty? lo1s) '()]
+    [(cons? lo1s)
+     (cons lo1s
+           (prefix (remove-last lo1s)))]))
+
+(check-expect (prefix '())
+              '())
+(check-expect (prefix (list "a"))
+              (list (list "a")))
+(check-expect (prefix (list "a" "b" "c" "d"))
+              (list (list "a" "b" "c" "d")
+                    (list "a" "b" "c")
+                    (list "a" "b")
+                    (list "a")))
+
+; List-of-1Strings -> List-of-List-of-1Strings
+; Produce the list of all prefixes. A list p
+; is a prefix of l if p and l are the same up
+; through all items in p.
 (define (prefix-alt lo1s)
   (cond
     [(empty? lo1s) '()]
     [(cons? lo1s)
      (cons lo1s
-           (prefix (take lo1s (sub1 (length lo1s)))))]))
+           (prefix-alt (take lo1s (sub1 (length lo1s)))))]))
 
 (check-expect (prefix-alt '())
               '())
+(check-expect (prefix-alt (list "a"))
+              (list (list "a")))
 (check-expect (prefix-alt (list "a" "b" "c" "d"))
               (list (list "a" "b" "c" "d")
                     (list "a" "b" "c")
@@ -42,16 +65,18 @@
 ; Produce the list of all prefixes. A list p
 ; is a prefix of l if p and l are the same up
 ; through all items in p.
-(define (prefix lo1s)
+(define (prefix-alt2 lo1s)
   (cond
     [(empty? lo1s) '()]
     [(cons? lo1s)
      (cons lo1s
-           (prefix (remove-last lo1s)))]))
+           (prefix-alt2 (reverse (rest (reverse lo1s)))))]))
 
-(check-expect (prefix '())
+(check-expect (prefix-alt2 '())
               '())
-(check-expect (prefix (list "a" "b" "c" "d"))
+(check-expect (prefix-alt2 (list "a"))
+              (list (list "a")))
+(check-expect (prefix-alt2 (list "a" "b" "c" "d"))
               (list (list "a" "b" "c" "d")
                     (list "a" "b" "c")
                     (list "a" "b")
@@ -67,6 +92,8 @@
 
 (check-expect (prefix-sorted '())
               '())
+(check-expect (prefix-sorted (list "a"))
+              (list (list "a")))
 (check-expect (prefix-sorted (list "a" "b" "c" "d"))
               (list (list "a")
                     (list "a" "b")
@@ -86,6 +113,8 @@
 
 (check-expect (suffix '())
               '())
+(check-expect (suffix (list "a"))
+              (list (list "a")))
 (check-expect (suffix (list "a" "b" "c" "d"))
               (list (list "a" "b" "c" "d")
                     (list "b" "c" "d")
@@ -102,6 +131,8 @@
 
 (check-expect (suffix-sorted '())
               '())
+(check-expect (suffix-sorted (list "a"))
+              (list (list "a")))
 (check-expect (suffix-sorted (list "a" "b" "c" "d"))
               (list (list "d")
                     (list "c" "d")
@@ -120,6 +151,8 @@
 
 (check-expect (remove-last '())
               '())
+(check-expect (remove-last (list "a"))
+              '())
 (check-expect (remove-last (list "a" "b" "c"))
               (list "a" "b"))
 
@@ -134,6 +167,8 @@
 
 (check-expect (sort-by-length '())
               '())
+(check-expect (sort-by-length (list "a"))
+              (list "a"))
 (check-expect (sort-by-length (list (list "a" "b" "c")
                                     (list "a" "b" "c" "d")
                                     (list "a" "b" "c")
