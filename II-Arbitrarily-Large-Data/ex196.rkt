@@ -24,13 +24,13 @@
 ;     to encompass all units of any writing system, i.e.
 ;     including letters like ö, ł, í, etc.
 
+(define-struct lc [letter count])
 ; A LetterCount is a structure:
 ;     (make-lc 1String Number)
 ; Interpretation:
 ;     A Letter and its number of occurence as
 ;     the starting letter.
 
-(define-struct lc [letter count])
 ; A List-of-LetterCounts is one of:
 ; – '()
 ; – (cons LetterCount List-of-LetterCounts)
@@ -47,6 +47,8 @@
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; Dictionary -> List-of-LetterCounts
+; Count how often each letter is used as the
+; first one of a word in the given dictionary d.
 (define (count-by-letter d)
   (cond
     [(empty? d) '()]
@@ -72,6 +74,8 @@
                     (make-lc "Z" 1)))
 
 ; List-of-Letters Dictionary -> List-of-LetterCounts
+; Count how often each letter in lol is used as the
+; first one of a word in the given dictionary d.
 (define (count-starting-letters lol d)
   (cond
     [(empty? lol) '()]
