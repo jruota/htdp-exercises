@@ -37,6 +37,12 @@
 ; Interpretation:
 ;     A list containing LetterCounts.
 
+; A NEList-of-LetterCounts (non-empty) is one of:
+; – (cons LetterCount '())
+; – (cons LetterCount NEList-of-LetterCounts)
+; Interpretation:
+;     A non-empty list of LetterCounts.
+
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (define LOCATION "/usr/share/dict/words")
