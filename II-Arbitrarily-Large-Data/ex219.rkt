@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname ex219-real) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname ex219) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (require 2htdp/image)
 (require 2htdp/universe)
 
@@ -423,13 +423,15 @@
   (and (equal? (ws-worm ws)
                (cons
                 (make-worm
-                 (make-posn (+ (worm-x (first (ws-worm ws)))
-                               (* SPEED (worm-x-dir (first (ws-worm ws)))))
-                            (+ (worm-y (first (ws-worm ws)))
-                               (* SPEED (worm-y-dir (first (ws-worm ws))))))
-                 (worm-dir (first (ws-worm ws))))
+                 (make-posn (+ (worm-x (first TEST-WORM-2))
+                               (* SPEED (worm-x-dir
+                                         (first TEST-WORM-2))))
+                            (+ (worm-y (first TEST-WORM-2))
+                               (* SPEED (worm-y-dir
+                                         (first TEST-WORM-2)))))
+                 (worm-dir (first TEST-WORM-2)))
                 TEST-WORM-2))
-       (divisible-by-RADIUS-and-within-canvas? (ws-food ws))))       
+       (divisible-by-RADIUS-and-within-canvas? (ws-food ws))))
 
 ; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -478,7 +480,6 @@
   (* (* RADIUS 2) (+ (random n) 1)))
 
 (check-satisfied (random-2r 20)
-                 ;divisible-by-10-and-between-10-and-200?)
                  divisible-by-RADIUS-but-not-2RADIUS-and-within-canvas?)
 
 ; N -> Boolean
@@ -508,32 +509,6 @@
 (check-expect (divisible-by-RADIUS-but-not-2RADIUS-and-within-canvas?
                (* 10 RADIUS))
               #true)
-
-;; N -> Boolean
-;; Is n divisible by 10 and 10 <= n <= 200?
-;(define (divisible-by-10-and-between-10-and-200? n)
-;  (and (>= n 10)
-;       (<= n 200)
-;       (= (modulo n 10) 0)))
-;
-;(check-expect (divisible-by-10-and-between-10-and-200? 9)
-;              #false)
-;(check-expect (divisible-by-10-and-between-10-and-200? 10)
-;              #true)
-;(check-expect (divisible-by-10-and-between-10-and-200? 11)
-;              #false)
-;
-;(check-expect (divisible-by-10-and-between-10-and-200? 199)
-;              #false)
-;(check-expect (divisible-by-10-and-between-10-and-200? 200)
-;              #true)
-;(check-expect (divisible-by-10-and-between-10-and-200? 201)
-;              #false)
-;
-;(check-expect (divisible-by-10-and-between-10-and-200? 95)
-;              #false)
-;(check-expect (divisible-by-10-and-between-10-and-200? 90)
-;              #true)
 
 ; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -739,8 +714,11 @@
 ; NE-Worm -> Boolean
 ; Has the worm run into itself?
 (define (run-into-self? new)
-  (member? (worm-pos (first new))
-           (get-worm-posns (rest new))))
+  (cond
+    [(empty? (rest new)) #false]
+    [else
+     (member? (worm-pos (first new))
+              (get-worm-posns (rest new)))]))
 
 (check-expect (run-into-self? TEST-WORM)
               #false)
