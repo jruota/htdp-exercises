@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname ex219) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname ex219-alt) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 (require 2htdp/image)
 (require 2htdp/universe)
 
@@ -27,8 +27,8 @@
 ; – '()
 ; – (cons Posn List-of-Posns)
 ; Interpretation:
-;     A list with the positions of
-;     certain elements.
+;     A list with the positions of the
+;     worm segments.
 
 ; A NE-Worm (non-empty worm) is one of:
 ; – (cons WormSegment '())
@@ -111,14 +111,12 @@
 ; and the number of worm segments.
 (define (worm-main s n)
   (big-bang (make-ws (create-worm n)
-                     ; food create could be passed any posn, as it creates a new
-                     ; one on each call using the passed posn only so that the
-                     ; new food is not at the same posn as the one before
                      (food-create (make-posn (* -1 RADIUS) (* -1 RADIUS))))
     [on-draw render]
     [on-key ke-handler]
     [on-tick move-worm s]
     [stop-when game-over? render-final]))
+    ;[state #true]))
 
 ; WorldState -> Image
 ; Render the current state of the
@@ -287,6 +285,21 @@
 ; to a certain value. In this case this logic testing would not be necessary.
 
 ; END NOTE ---------------------------------------------------------------------
+
+; >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+; One way to interpret “eating” is to say that the head moves where the food
+; used to be located and the tail grows by one segment, inserted where the head
+; used to be. Why is this interpretation easy to design as a function?
+
+; A slightly different solution is employed here. When food has been eaten by
+; the worm, a new worm segment is added one "spot" after the spot of the food
+; in the direction the head was moving while the rest of the worm is standing
+; still. Also, this is not implemented as a seperate function, but within the
+; move-worm function.
+
+; <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 ; WorldState -> WorldState
 ; Change the position of the worm
 ; every clock tick according to its
@@ -514,7 +527,7 @@
               #true)
 
 ; NE-Worm -> NE-Worm
-; Set all directional vectors of new
+; Set all directional vectors of news
 ; to dirvec.
 (define (set-dir new dirvec)
   (cond
@@ -678,7 +691,7 @@
 
 ; WormSegment -> Number
 ; Return the current x-position
-; of the worm segment ws.
+; of the worm segment news.
 (define (worm-x ws)
   (posn-x (worm-pos ws)))
 
@@ -687,7 +700,7 @@
 
 ; WormSegment -> Number
 ; Return the current y-position
-; of the worm segment ws.
+; of the worm segment news.
 (define (worm-y ws)
   (posn-y (worm-pos ws)))
 
@@ -696,7 +709,7 @@
 
 ; WormSegment -> Number
 ; Return the current x-direction
-; of the worm segment ws.
+; of the worm segment news.
 (define (worm-x-dir ws)
   (dir-x (worm-dir ws)))
 
@@ -705,7 +718,7 @@
 
 ; WormSegment -> Number
 ; Return the current y-direction
-; of the worm segment ws.
+; of the worm segment news.
 (define (worm-y-dir ws)
   (dir-y (worm-dir ws)))
 
