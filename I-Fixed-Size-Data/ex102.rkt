@@ -74,7 +74,7 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; Any -> Image
+; Any -> SIGS
 ; The only argument is discarded.
 (define (si-main a)
   (big-bang (make-sigs (make-posn (* 1/2 WIDTH) (* -1 (image-height UFO)))
