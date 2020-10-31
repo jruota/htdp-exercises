@@ -78,11 +78,6 @@
  (find-next-state (make-fs fsm-traffic "yellow") " ")
  (make-fs fsm-traffic "red"))
 
-
-; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-; The following function relies on the fact that the states are represented
-; as strings and will fail for any other type.
-; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ; FSM FSM-State -> FSM-State
 ; finds the state representing current in transitions
 ; and retrieves the next field

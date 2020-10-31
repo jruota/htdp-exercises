@@ -6,22 +6,28 @@
 
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; A BW-Machine (black and white machine) is a list
-;     (list (make-transition "black" "white")
-;           (make-transition "white" "black"))
-; Interpretation:
-;     A collection of all valid state changes for a BW-Machine.
+; An FSM is one of:
+;   – '()
+;   – (cons Transition FSM)
  
 (define-struct transition [current next])
 ; A Transition is a structure:
 ;   (make-transition FSM-State FSM-State)
+ 
+; FSM-State is a Color.
 
-; An FSM-State is one of:
-;     – "black"
-;     – "white"
-; Interpretation:
-;     The two valid states a BW-Machine can take
-;     in reaction to key-strokes.
+; A Color is one of: 
+; — "white"
+; — "yellow"
+; — "orange"
+; — "green"
+; — "red"
+; — "blue"
+; — "black"
+
+; interpretation An FSM represents the transitions that a
+; finite state machine can take from one state to another 
+; in reaction to keystrokes
 
 (define-struct fs [fsm current])
 ; A SimulationState is a structure: 
@@ -57,7 +63,7 @@
                 (make-fs fsm-traffic "red"))
               (square 100 "solid" "red"))
 
-; SimulationState.v2 KeyEvent -> SimulationState.v2
+; SimulationState KeyEvent -> SimulationState
 ; finds the next state from an-fsm and ke
 (define (find-next-state an-fsm ke)
   (make-fs
@@ -77,11 +83,6 @@
  (find-next-state (make-fs fsm-traffic "yellow") " ")
  (make-fs fsm-traffic "red"))
 
-
-; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-; The following function relies on the fact that the states are represented
-; as strings and will fail for any other type.
-; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ; FSM FSM-State -> FSM-State
 ; finds the state representing current in transitions
 ; and retrieves the next field
@@ -100,4 +101,3 @@
 (check-expect (find fsm-traffic "yellow") "red")
 (check-error (find fsm-traffic "black")
              "not found: black")
-
