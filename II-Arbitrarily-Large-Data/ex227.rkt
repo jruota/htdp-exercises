@@ -3,19 +3,31 @@
 #reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname ex227) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; A BW-Machine (black and white machine) is a list
-;     (list (make-transition "black" "white")
-;           (make-transition "white" "black"))
-; Interpretation:
-;     A collection of all valid state changes for a BW-Machine.
+; An FSM is one of:
+;   – '()
+;   – (cons Transition FSM)
  
 (define-struct transition [current next])
 ; A Transition is a structure:
 ;   (make-transition FSM-State FSM-State)
+ 
+; FSM-State is a Color.
 
-; An FSM-State is one of:
-;     – "black"
-;     – "white"
-; Interpretation:
-;     The two valid states a BW-Machine can take
-;     in reaction to key-strokes.
+; A Color is one of: 
+; — "white"
+; — "yellow"
+; — "orange"
+; — "green"
+; — "red"
+; — "blue"
+; — "black"
+ 
+; interpretation An FSM represents the transitions that a
+; finite state machine can take from one state to another 
+; in reaction to keystrokes
+
+; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(define bw-machine
+  (make-transition "black" "white")
+  (make-transition "white" "black"))
