@@ -103,12 +103,12 @@
 ;     – the points
 ;     – any obstacles
 
-(define-struct tank [xpos lives])
+(define-struct tank [xpos vel lives])
 ; A Tank is a structure:
-;     (make-tank Number Number)
+;     (make-tank Number Number Number)
 ; Interpretation:
-;     The current x-position of the tank
-;     and the amount of lives left.
+;     The current x-position of the tank,
+;     it velocity and the amount of lives left.
 
 ; A Rocket is a Posn:
 ;     (make-posn Number Number)
@@ -263,7 +263,7 @@
   (list SSC-1 SSC-2 SSC-3 SSC-4 SSC-5))
 
 (define WS1-EXAMPLE
-  (make-ws (make-tank (* 1/2 WIDTH) 3)                      ; tank
+  (make-ws (make-tank (* 1/2 WIDTH) 0 3)                    ; tank
            (list (make-posn (* 1/2 WIDTH) (* 3/4 HEIGHT))   ; rocket
                  (make-posn (* 1/2 WIDTH) (* 2/4 HEIGHT)))  ; rocket
            SSM-EXAMPLE                                      ; space-ships
@@ -282,13 +282,159 @@
                            OBSTACLE-HEIGHT))
            250))                                            ; points
 
+(define WS2-EXAMPLE
+  (make-ws (make-tank (* 1/2 WIDTH) (* -1 TANK-SPEED) 3)    ; tank
+           (list (make-posn (* 1/2 WIDTH) (* 3/4 HEIGHT))   ; rocket
+                 (make-posn (* 1/2 WIDTH) (* 2/4 HEIGHT)))  ; rocket
+           SSM-EXAMPLE                                      ; space-ships
+           (list (make-posn (- (* 1/2 WIDTH) (* 2 HSSD)) (* 7 VSSD))  ; laser
+                 (make-posn (+ (* 1/2 WIDTH) (* 2 HSSD)) (* 9 VSSD))) ; laser
+           (list
+            (make-obstacle OBSTACLE-X-FIRST
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST OBSTACLE-X-NEXT)
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST (* 2 OBSTACLE-X-NEXT))
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST (* 3 OBSTACLE-X-NEXT))
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST (* 4 OBSTACLE-X-NEXT))
+                           OBSTACLE-HEIGHT))
+           250))                                            ; points
+
+(define WS3-EXAMPLE
+  (make-ws (make-tank (* 1/2 WIDTH) (abs TANK-SPEED) 3)     ; tank
+           (list (make-posn (* 1/2 WIDTH) (* 3/4 HEIGHT))   ; rocket
+                 (make-posn (* 1/2 WIDTH) (* 2/4 HEIGHT)))  ; rocket
+           SSM-EXAMPLE                                      ; space-ships
+           (list (make-posn (- (* 1/2 WIDTH) (* 2 HSSD)) (* 7 VSSD))  ; laser
+                 (make-posn (+ (* 1/2 WIDTH) (* 2 HSSD)) (* 9 VSSD))) ; laser
+           (list
+            (make-obstacle OBSTACLE-X-FIRST
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST OBSTACLE-X-NEXT)
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST (* 2 OBSTACLE-X-NEXT))
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST (* 3 OBSTACLE-X-NEXT))
+                           OBSTACLE-HEIGHT)
+            (make-obstacle (+ OBSTACLE-X-FIRST (* 4 OBSTACLE-X-NEXT))
+                           OBSTACLE-HEIGHT))
+           250))                                            ; points
+
+(define WS4-EXAMPLE
+  (make-ws (make-tank (* 1/2 WIDTH) 0 3)                    ; tank
+           (list (make-posn (* 1/2 WIDTH) (* 3/4 HEIGHT))   ; rockets
+                 (make-posn (* 1/2 WIDTH) (* 2/4 HEIGHT))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 2 OBSTACLE-X-NEXT)
+                               (* 1/2 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y (* 2 OBSTACLE-DAMAGE)))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 2 OBSTACLE-X-NEXT)
+                               (* 0 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y (* 2 OBSTACLE-DAMAGE)))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 2 OBSTACLE-X-NEXT)
+                               (* -1/2 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y (* 2 OBSTACLE-DAMAGE)))
+                 (make-posn (- (* 1/2 WIDTH)
+                               OBSTACLE-X-NEXT
+                               (* 1/2 (image-width OBSTACLE)))
+                            OBSTACLE-Y)
+                 (make-posn (- (* 1/2 WIDTH)
+                               OBSTACLE-X-NEXT
+                               (* 0 (image-width OBSTACLE)))
+                            OBSTACLE-Y)
+                 (make-posn (- (* 1/2 WIDTH)
+                               OBSTACLE-X-NEXT
+                               (* -1/2 (image-width OBSTACLE)))
+                            OBSTACLE-Y)
+                 (make-posn (- (* 1/2 WIDTH) (* 1/2 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y (* 5/2 OBSTACLE-DAMAGE)))
+                 (make-posn (* 1/2 WIDTH)
+                            (+ OBSTACLE-Y (* 5/2 OBSTACLE-DAMAGE)))
+                 (make-posn (+ (* 1/2 WIDTH) (* 1/2 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y (* 5/2 OBSTACLE-DAMAGE)))
+                 (make-posn (- (* 1/2 WIDTH) (* 1/2 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y 0))
+                 (make-posn (* 1/2 WIDTH)
+                            (+ OBSTACLE-Y 0))
+                 (make-posn (+ (* 1/2 WIDTH) (* 1/2 (image-width OBSTACLE)))
+                            (+ OBSTACLE-Y 0))
+                 (make-posn (- (* 1/2 WIDTH) (* 1/2 (image-width OBSTACLE)))
+                            (- OBSTACLE-Y (* 5/2 OBSTACLE-DAMAGE)))
+                 (make-posn (* 1/2 WIDTH)
+                            (- OBSTACLE-Y (* 5/2 OBSTACLE-DAMAGE)))
+                 (make-posn (+ (* 1/2 WIDTH) (* 1/2 (image-width OBSTACLE)))
+                            (- OBSTACLE-Y (* 5/2 OBSTACLE-DAMAGE)))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 2 HSSD)
+                               (* 1/2 (image-width SPACESHIP)))
+                            (+ (* 6 VSSD)
+                               (* 1/2 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 2 HSSD)
+                               (* 0 (image-width SPACESHIP)))
+                            (+ (* 6 VSSD)
+                               (* 1/2 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 2 HSSD)
+                               (* -1/2 (image-width SPACESHIP)))
+                            (+ (* 6 VSSD)
+                               (* 1/2 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 1 HSSD)
+                               (* 1/2 (image-width SPACESHIP)))
+                            (+ (* 6 VSSD)
+                               (* 0 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 1 HSSD)
+                               (* 0 (image-width SPACESHIP)))
+                            (+ (* 6 VSSD)
+                               (* 0 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 1 HSSD)
+                               (* -1/2 (image-width SPACESHIP)))
+                            (+ (* 6 VSSD)
+                               (* 0 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 0 HSSD)
+                               (* 1/2 (image-width SPACESHIP)))
+                            (- (* 6 VSSD)
+                               (* 1/2 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 0 HSSD)
+                               (* 0 (image-width SPACESHIP)))
+                            (- (* 6 VSSD)
+                               (* 1/2 (image-height SPACESHIP))))
+                 (make-posn (- (* 1/2 WIDTH)
+                               (* 0 HSSD)
+                               (* -1/2 (image-width SPACESHIP)))
+                            (- (* 6 VSSD)
+                               (* 1/2 (image-height SPACESHIP)))))
+           SSM-EXAMPLE                                      ; space-ships
+           (list (make-posn (- (* 1/2 WIDTH) (* 2 HSSD)) (* 7 VSSD))  ; laser
+                 (make-posn (+ (* 1/2 WIDTH) (* 2 HSSD)) (* 9 VSSD))) ; laser
+           (list (make-obstacle (- (* 1/2 WIDTH) (* 2 OBSTACLE-X-NEXT))
+                                (* 1/90 HEIGHT))
+                 (make-obstacle (- (* 1/2 WIDTH) OBSTACLE-X-NEXT)
+                                (* 2/90 HEIGHT))
+                 (make-obstacle (* 1/2 WIDTH)
+                                (* 5/90 HEIGHT))
+                 (make-obstacle (+ (* 1/2 WIDTH) OBSTACLE-X-NEXT)
+                                (* 4/90 HEIGHT))
+                 (make-obstacle (+ (* 1/2 WIDTH) (* 2 OBSTACLE-X-NEXT))
+                                (* 3/90 HEIGHT)))
+           250))                                            ; points
+
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; ??? -> WorldState
 ; Start the main program.
 (define (full-space-war a)
   (big-bang (make-ws
-             (make-tank (* 1/2 (image-width BACKGROUND)) TANK-LIVES)
+             (make-tank (* 1/2 (image-width BACKGROUND)) 0 TANK-LIVES)
              '()
              '()
              '()
@@ -306,6 +452,7 @@
              0)
     [on-draw render]
     [on-key ke-handler]
+    [on-release release-handler]
     [on-tick tock]))
 
 ; RENDERING FUNCTIONS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -337,7 +484,7 @@
                TANK-Y
                img))
 
-(check-expect (render-tank (make-tank (* 1/2 WIDTH) 3) BACKGROUND)
+(check-expect (render-tank (make-tank (* 1/2 WIDTH) 0 3) BACKGROUND)
               (place-image TANK
                            (* 1/2 WIDTH)
                            TANK-Y
@@ -620,7 +767,7 @@
            TEXT-Y
            img))
 
-(check-expect (render-lives (make-tank 250 3) BACKGROUND)
+(check-expect (render-lives (make-tank 250 0 3) BACKGROUND)
               (place-image
                (beside
                 (text/font
@@ -639,7 +786,7 @@
                 TEXT-Y
                 BACKGROUND))
 
-(check-expect (render-lives (make-tank 250 1) BACKGROUND)
+(check-expect (render-lives (make-tank 250 0 1) BACKGROUND)
               (place-image
                (beside
                 (text/font
@@ -672,7 +819,7 @@
 
 ; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-; KEY EVENT HANDLER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+; KEY EVENT HANDLERs +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ; WorldState KeyEvent -> WorldState
 ; Deal with moving the tank and
@@ -691,7 +838,9 @@
       (ws-points ws))]
     [(key=? ke "left")
      (make-ws
-      (move-tank (ws-tank ws) (* -1 (abs TANK-SPEED)))
+      (make-tank (tank-xpos (ws-tank ws))
+                 (* -1 (abs TANK-SPEED))
+                 (tank-lives (ws-tank ws)))
       (ws-lor ws)
       (ws-ssm ws)
       (ws-lol ws)
@@ -699,7 +848,9 @@
       (ws-points ws))]
     [(key=? ke "right")
      (make-ws
-      (move-tank (ws-tank ws) (abs TANK-SPEED))
+      (make-tank (tank-xpos (ws-tank ws))
+                 (abs TANK-SPEED)
+                 (tank-lives (ws-tank ws)))
       (ws-lor ws)
       (ws-ssm ws)
       (ws-lol ws)
@@ -721,25 +872,55 @@
                (ws-loo WS1-EXAMPLE)
                (ws-points WS1-EXAMPLE)))
 
-; Tank Number -> Tank
-; Move tank t in the direction and with the speed
-; specified by velocity v.
-(define (move-tank t v)
+(check-expect (ke-handler WS1-EXAMPLE "left")
+              (make-ws
+               (make-tank
+                (tank-xpos (ws-tank WS1-EXAMPLE))
+                (* -1 TANK-SPEED)
+                (tank-lives (ws-tank WS1-EXAMPLE)))
+               (ws-lor WS1-EXAMPLE)
+               (ws-ssm WS1-EXAMPLE)
+               (ws-lol WS1-EXAMPLE)
+               (ws-loo WS1-EXAMPLE)
+               (ws-points WS1-EXAMPLE)))
+
+(check-expect (ke-handler WS1-EXAMPLE "right")
+              (make-ws
+               (make-tank
+                (tank-xpos (ws-tank WS1-EXAMPLE))
+                (abs TANK-SPEED)
+                (tank-lives (ws-tank WS1-EXAMPLE)))
+               (ws-lor WS1-EXAMPLE)
+               (ws-ssm WS1-EXAMPLE)
+               (ws-lol WS1-EXAMPLE)
+               (ws-loo WS1-EXAMPLE)
+               (ws-points WS1-EXAMPLE)))
+
+; WorldState KeyEvent -> WorldState
+; Stop the tank when the "left" or "right"
+; key have been released.
+(define (release-handler ws ke)
   (cond
-    [(< (+ (tank-xpos t) v)
-        (* 1/2 (image-width TANK)))
-     (make-tank
-      (* 1/2 (image-width TANK))
-      (tank-lives t))]
-    [(> (+ (tank-xpos t) v)
-        (- WIDTH (* 1/2 (image-width TANK))))
-     (make-tank
-      (- WIDTH (* 1/2 (image-width TANK)))
-      (tank-lives t))]
-    [else
-     (make-tank
-      (+ (tank-xpos t) v)
-      (tank-lives t))]))
+    [(or (key=? ke "left")
+         (key=? ke "right"))
+     (make-ws
+      (make-tank
+       (tank-xpos (ws-tank ws))
+       0
+       (tank-lives (ws-tank ws)))
+      (ws-lor ws)
+      (ws-ssm ws)
+      (ws-lol ws)
+      (ws-loo ws)
+      (ws-points ws))]
+    [else ws]))
+
+(check-expect (release-handler WS2-EXAMPLE "left")
+              WS1-EXAMPLE)
+(check-expect (release-handler WS3-EXAMPLE "right")
+              WS1-EXAMPLE)
+(check-expect (release-handler WS1-EXAMPLE " ")
+              WS1-EXAMPLE)
               
 ; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -761,40 +942,158 @@
 ; lasers and deal with laser and rocket hits.
 (define (tock ws)
   (make-ws
-   (ws-tank ws)
-   (move-rockets (ws-lor ws))
+   (move-tank (ws-tank ws))
+   (move-rockets (ws-lor ws) (ws-ssm ws) (ws-loo ws))
    (ws-ssm ws)
    (ws-lol ws)
    (ws-loo ws)
    (ws-points ws)))
 
-; LoR -> LoR
+; Tank Number -> Tank
+; Calculate the next position of the tank
+; from its current position and its velocity.
+(define (move-tank t)
+  (cond
+    [(< (+ (tank-xpos t) (tank-vel t))
+        (* 1/2 (image-width TANK)))
+     (make-tank
+      (* 1/2 (image-width TANK))
+      (tank-vel t)
+      (tank-lives t))]
+    [(> (+ (tank-xpos t) (tank-vel t))
+        (- WIDTH (* 1/2 (image-width TANK))))
+     (make-tank
+      (- WIDTH (* 1/2 (image-width TANK)))
+      (tank-vel t)
+      (tank-lives t))]
+    [else
+     (make-tank
+      (+ (tank-xpos t) (tank-vel t))
+      (tank-vel t)
+      (tank-lives t))]))
+
+(check-expect (move-tank (make-tank (* 1/2 (image-width TANK))
+                                    (* -1 TANK-SPEED)
+                                    3))
+              (make-tank (* 1/2 (image-width TANK))
+                         (* -1 TANK-SPEED)
+                         3))
+
+(check-expect (move-tank (make-tank (- WIDTH (* 1/2 (image-width TANK)))
+                                    (abs TANK-SPEED)
+                                    3))
+              (make-tank (- WIDTH (* 1/2 (image-width TANK)))
+                         (abs TANK-SPEED)
+                         3))
+
+(check-expect (move-tank (make-tank (* 1/2 WIDTH)
+                                    (abs TANK-SPEED)
+                                    3))
+              (make-tank (+ (* 1/2 WIDTH) (abs TANK-SPEED))
+                         (abs TANK-SPEED)
+                         3))
+
+; LoR SSM LoO -> LoR
 ; Move the rockets and remove any
-; outside the canvas.
-(define (move-rockets lor)
+; outside the canvas or ones that
+; have hit either an obstacle or a
+; space ship.
+(define (move-rockets lor ssm loo)
   (cond
     [(empty? lor) lor]
     [(cons? lor)
-     (if (< (- (posn-y (first lor)) ROCKET-SPEED)
-            (* -1/2 (image-height ROCKET)))
-         (move-rockets (rest lor))
+     (if (or (outside-canvas? (first lor))
+             (hit-ship? (first lor) ssm)
+             (hit-obstacles? (first lor) loo))
+         (move-rockets (rest lor) ssm loo)
          (cons
-          (make-posn (posn-x (first lor))
-                     (- (posn-y (first lor)) ROCKET-SPEED))
-          (move-rockets (rest lor))))]))
+          (move-rocket (first lor))
+          (move-rockets (rest lor) ssm loo)))]))
 
-(check-expect (move-rockets '())
+(check-expect (move-rockets '() '() '())
               '())
 (check-expect (move-rockets
                (list
                 (make-posn 100 100)
                 (make-posn 200 200)
                 (make-posn 300 300)
-                (make-posn 400 (+ 1 (* -1/2 (image-height ROCKET))))))
+                (make-posn 400 (+ 1 (* -1/2 (image-height ROCKET)))))
+               '() '())
               (list
                (make-posn 100 (- 100 ROCKET-SPEED))
                (make-posn 200 (- 200 ROCKET-SPEED))
                (make-posn 300 (- 300 ROCKET-SPEED))))
+
+; Rocket -> Rocket
+; Move the rocket r.
+(define (move-rocket r)
+  (make-posn (posn-x r)
+             (- (posn-y r) ROCKET-SPEED)))
+
+(check-expect (move-rocket (make-posn 400 400))
+              (make-posn 400 (- 400 ROCKET-SPEED)))
+
+; Rocket -> Boolean
+; Is the rocket r outside the canvas
+; in y-direction?
+(define (outside-canvas? r)
+  (< (- (posn-y r) ROCKET-SPEED)
+     (* -1/2 (image-height ROCKET))))
+
+(check-expect (outside-canvas? (make-posn 100 100))
+              #false)
+(check-expect (outside-canvas?
+               (make-posn 200
+                          (- (* -1/2 (image-height ROCKET)) 1)))
+              #true)
+
+; Rocket LoO -> Boolean
+; Has the rocket r hit any of the space ships in ssm?
+(define (hit-ship? r ssm)
+  #false)
+
+; Rocket LoO -> Boolean
+; Has the rocket r hit any of the obstacles in loo?
+(define (hit-obstacles? r loo)
+  (cond
+    [(empty? loo) #false]
+    [else
+     (or (hit-obstacle? r (first loo))
+         (hit-obstacles? r (rest loo)))]))
+
+(check-expect (hit-obstacles? (make-posn 500 500)
+                              (ws-loo WS4-EXAMPLE))
+              #false)
+(check-expect (hit-obstacles? (make-posn (* 1/2 WIDTH) OBSTACLE-Y)
+                              (ws-loo WS4-EXAMPLE))
+              #true)
+
+; Rocket Obstacle -> Boolean
+; Has rocket r hit obstacle o?
+(define (hit-obstacle? r o)
+  (and
+   (and (> (posn-x r)
+           (- (obstacle-xpos o) (* 1/2 (image-width OBSTACLE))))
+        (< (posn-x r)
+           (+ (obstacle-xpos o) (* 1/2 (image-width OBSTACLE)))))
+   (and (> (posn-y r)
+           (- OBSTACLE-Y (* 1/2 (image-height OBSTACLE))))
+        (< (posn-y r)
+           (+ (- OBSTACLE-Y (* 1/2 (image-height OBSTACLE)))
+              (obstacle-height o))))))
+
+(check-expect (hit-obstacle? (make-posn 500 500)
+                             (make-obstacle
+                              (+ OBSTACLE-X-FIRST
+                                 (* 2 OBSTACLE-X-NEXT))
+                              OBSTACLE-HEIGHT))
+              #false)
+(check-expect (hit-obstacle? (make-posn (* 1/2 WIDTH) OBSTACLE-Y)
+                             (make-obstacle
+                              (+ OBSTACLE-X-FIRST
+                                 (* 2 OBSTACLE-X-NEXT))
+                              OBSTACLE-HEIGHT))
+              #true)
 
 ; ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
