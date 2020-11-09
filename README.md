@@ -10,3 +10,6 @@ The solutions may not be complete, but I did them as best as I could. Also,
 because I am redoing the exercises up to exercise 211 (inclusive), the solutions
 might use constructs introduced later in the book, although I try to use only
 what has been introduced so far.
+
+Part of the [Teach Yourself Computer Science](https://teachyourselfcs.com/) 
+curriculum.
