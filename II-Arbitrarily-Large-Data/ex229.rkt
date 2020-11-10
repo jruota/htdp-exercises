@@ -35,20 +35,16 @@
 
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-; Other than in exercise 109, another possible state change was added, namely
-; from state BB to state AA. The final state and errors were left out as stated
-; in the instructions for exercise 229.
-; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 (define AA "white")
 (define BB "yellow")
+(define DD "green")
+(define ER "red")
 
 (define fsm-ExpectsToSee
   (list (make-ktransition AA "a" BB)
         (make-ktransition BB "b" BB)
         (make-ktransition BB "c" BB)
-        (make-ktransition BB "a" AA)))
+        (make-ktransition BB "d" DD)))
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -86,13 +82,13 @@
               (make-fs fsm-ExpectsToSee BB))
 
 (check-expect (find-next-state (make-fs fsm-ExpectsToSee BB) "a")
-              (make-fs fsm-ExpectsToSee AA))
+              (make-fs fsm-ExpectsToSee ER))
 
 (check-expect (find-next-state (make-fs fsm-ExpectsToSee BB) "d")
-              (make-fs fsm-ExpectsToSee BB))
+              (make-fs fsm-ExpectsToSee DD))
 
 (check-expect (find-next-state (make-fs fsm-ExpectsToSee AA) " ")
-              (make-fs fsm-ExpectsToSee AA))
+              (make-fs fsm-ExpectsToSee ER))
 
 ; FSM KeyEvent FSM-State -> FSM-State
 ; finds the state representing current in transitions
@@ -100,7 +96,7 @@
 (define (find transitions ke current)
   (cond
     [(empty? transitions)
-     current]
+     ER]
     [(cons? transitions)
      (if (and (string=? (ktransition-current (first transitions))
                         current)
@@ -115,10 +111,9 @@
 (check-expect (find fsm-ExpectsToSee "c" BB)
               BB)
 (check-expect (find fsm-ExpectsToSee "a" BB)
-              AA)
+              ER)
 
 (check-expect (find fsm-ExpectsToSee "d" BB)
-              BB)
+              DD)
 (check-expect (find fsm-ExpectsToSee "d" AA)
-              AA)
-
+              ER)
