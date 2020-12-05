@@ -82,7 +82,7 @@
 (check-expect (place-dot (make-posn 50 50) emt)
               (place-image dot 50 50 emt))
 
-; [List-of ITEM] VALUE [List-of ITEM -> VALUE] -> VALUE
+; [List-of X] Y [X Y -> Y] -> Y
 ; Compute a value by applying
 ; f to every element in l.
 ; Return ev if l is empty.
