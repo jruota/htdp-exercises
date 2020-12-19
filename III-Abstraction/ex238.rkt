@@ -178,7 +178,7 @@
 ; Why are these versions so much faster?
 
 ; Compared to the previous functions, these functions return a number and do
-; not use an intermediary function that return a boolean. Thus there is no need
+; not use an intermediary function that returns a boolean. Thus there is no need
 ; for an if statement and another function call to return a number.
 
 (inf-2 ONE)
