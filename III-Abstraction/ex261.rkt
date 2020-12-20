@@ -92,6 +92,36 @@
 (check-expect (extract1.v2 TEST)
               RESULT)
 
+; NOTE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+; The `cond` expression is best described as follows:
+;
+;    A cond expression starts with `(cond` followed by an arbitrary number
+;    of pairs of expressions in parens `[expression-1 expression-2]`
+;    completed by `)`.
+;
+; So the position below `cond` cannot be an expression by itself,
+; be that a `local` expression or a different one.
+;
+; But I think your question is really about the ERROR MESSAGE.
+; Let’s take a close look:
+;
+; `(cond` suggests that the BSL+ implementation (compiler/interpreter) should
+; look for a conditional expression.
+;
+;        — According to the grammar above, it __must__ find a `(` next.
+;          Great it does.
+;	— Then it must find an expression. But what’s left is
+;          `local ((define ..` and that means `local` is found next.
+;	— In the BSL language, `local` is the keyword for an expression
+;          and it must be preceded by a `(` but the one that you put there
+;          was considered a part of `cond`.
+;
+; Sadly, we have not found a good way to improve this error message.
+; This is an old open issue and one day we should figure out how to do better.
+
+; END NOTE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ;; Inventory -> Inventory
 ;; creates an Inventory from an-inv for all
 ;; those items that cost less than a dollar
@@ -118,4 +148,6 @@
 ; Does this help increase the speed at which the function computes its result?
 ; Significantly? A little bit? Not at all?
 
-; It does not increase the speed of the function at all. WHY?
+; It does not increase the speed of the function at all.
+; Thie is because the expression "(extract1 (rest an-inv))" is evaluated
+; only once, depending on which condition is true.
