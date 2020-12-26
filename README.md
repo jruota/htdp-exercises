@@ -13,3 +13,11 @@ what has been introduced so far.
 
 Part of the [Teach Yourself Computer Science](https://teachyourselfcs.com/) 
 curriculum.
+
+## Missing / Incomplete Exercises
+* exercise 224 (incomplete)
+* exercise 225
+* exercise 275
+* exercise 276
+* exercise 277
+* exercise 278
