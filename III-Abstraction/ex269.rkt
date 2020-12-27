@@ -86,9 +86,9 @@
                                      (make-IR "TV" "a TV set" 500 650)
                                      (make-IR "house" "a house" 350000 500000)))
               (list (make-IR "house" "a house" 350000 500000)
-                                     (make-IR "car" "a car" 14999 20000)
-                                     (make-IR "TV" "a TV set" 500 650)
-                                     (make-IR "house" "a house" 350000 500000)))
+                    (make-IR "car" "a car" 14999 20000)
+                    (make-IR "TV" "a TV set" 500 650)
+                    (make-IR "house" "a house" 350000 500000)))
 
 ; [List-of String] [List-of String] -> [List-of String]
 ; Select all those strings from los2
