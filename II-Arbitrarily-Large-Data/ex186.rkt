@@ -58,7 +58,8 @@
 (check-expect (insert 2 (list 3 2 1))
               (list 3 2 2 1))
 
-; From ex145.rkt (exercise 145) with minor changes. - - - - - - - - - - - - - - 
+; From ex145.rkt (exercise 145) with minor changes. - - - - - - - - - - - - - -
+
 ; List-of-numbers -> Boolean
 ; Return #true if the alon is sorted
 ; in descending order, #false else.
@@ -82,13 +83,13 @@
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; The check-satisfied function takes an expression an a primitive as arguments.
+; The check-satisfied function takes an expression and a primitive as arguments.
 ; Any primitive takes only one argument. To show that sort>/bad is not a sorting
-; function one would have to show that the result is sorted and contains all
-; elements from its argument. Therefore any primitive passed to check-satisfied
-; would have to be given two arguments, the result of sort>/bad and the argument
-; to sort>/bad to check for completeness. Thus one cannot formulate a test with
-; check-satisfied.
+; function one would have to show that the result is not sorted and does not
+; contain all elements from its argument. Therefore any primitive passed to
+; check-satisfied would have to be given two arguments, the result of sort>/bad
+; and the argument to sort>/bad to check for completeness. Thus one cannot
+; formulate a test with check-satisfied.
 
 ; List-of-numbers -> List-of-numbers
 ; produces a sorted version of l
@@ -144,3 +145,7 @@
               #true)
 (check-expect (complete? (list 1 4 7 3) (list 7 7 1 4 7 1))
               #false)
+
+; this is not good, see purpose statement
+(check-expect (complete? (list 1 1 1 1) (list 1))
+              #true)
