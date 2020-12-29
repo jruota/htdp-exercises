@@ -34,6 +34,15 @@
 (check-expect [(sorted string<?) '("b" "c")] #true)
 (check-expect [(sorted <) '(1 2 3 4 5 6)] #true)
 
+; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+; The following works, because (so it seems) the inner "lambda" definition has
+; access to the parameter "cmp" of the surrounding "sorted.v2".
+; Anyway, "cmp" must be passed to "sorted?" if one wants to avoid reformulating
+; or redefining "sorted?".
+
+; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 ; [X X -> Boolean] -> [[List-of X] -> Boolean]
 ; is the given list l0 sorted according to cmp
 (define (sorted.v2 cmp)
