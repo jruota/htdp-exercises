@@ -149,5 +149,5 @@
 ; Significantly? A little bit? Not at all?
 
 ; It does not increase the speed of the function at all.
-; Thie is because the expression "(extract1 (rest an-inv))" is evaluated
+; This is because the expression "(extract1 (rest an-inv))" is evaluated
 ; only once, depending on which condition is true.
