@@ -18,4 +18,3 @@ curriculum.
 * exercise 224 (incomplete)
 * exercise 225
 * exercise 277
-* exercise 278
