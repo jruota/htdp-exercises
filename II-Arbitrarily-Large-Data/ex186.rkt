@@ -83,10 +83,10 @@
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; The check-satisfied function takes an expression and a primitive as arguments.
-; Any primitive takes only one argument. To show that sort>/bad is not a sorting
+; The check-satisfied function takes an expression and a predicate as arguments.
+; Any predicate takes only one argument. To show that sort>/bad is not a sorting
 ; function one would have to show that the result is not sorted and does not
-; contain all elements from its argument. Therefore any primitive passed to
+; contain all elements from its argument. Therefore any predicate passed to
 ; check-satisfied would have to be given two arguments, the result of sort>/bad
 ; and the argument to sort>/bad to check for completeness. Thus one cannot
 ; formulate a test with check-satisfied.
