@@ -37,9 +37,15 @@
 ; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ; The following works, because (so it seems) the inner "lambda" definition has
-; access to the parameter "cmp" of the surrounding "sorted.v2".
+; access to the parameter "cmp" of the surrounding "sorted.v2". This would also
+; explain why sorted/l does not consume cmp as an argument.
 ; Anyway, "cmp" must be passed to "sorted?" if one wants to avoid reformulating
 ; or redefining "sorted?".
+
+; See section 17.1:
+;     One way to understand how lambda works is to view it as an ...
+; This gives a link between lambda and local and thus why lambda has access
+; to the parameters of the surrounding function.
 
 ; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
