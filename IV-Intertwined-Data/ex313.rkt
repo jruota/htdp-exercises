@@ -65,7 +65,9 @@
     [else
      (or
       (blue-eyed-child? (child-father an-ftree))
-      (blue-eyed-child? (child-mother an-ftree)))]))
+      (blue-eyed-child? (child-mother an-ftree))
+      (blue-eyed-ancestor.v2? (child-father an-ftree))
+      (blue-eyed-ancestor.v2? (child-mother an-ftree)))]))
 
 (check-expect (blue-eyed-ancestor.v2? NP) #false)
 (check-expect (blue-eyed-ancestor.v2? Eva) #false)
