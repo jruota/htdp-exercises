@@ -27,7 +27,7 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; Div.v1 -> N
+; Dir.v1 -> N
 ; Determine how many files dir contains.
 (define (how-many dir)
   (cond
