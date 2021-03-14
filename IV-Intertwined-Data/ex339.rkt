@@ -32,12 +32,12 @@
 ; Dir String -> Boolean
 ; Does file occur in the directory tree dir?
 (define (find? dir file)
-  (local (; [List-of File] String -> Boolean
+  (local (; [List-of File] -> Boolean
           ; Does file occur in lof of the current working directory?
           (define (file-in-current-dir? lof)
             (ormap (lambda (x) (string=? file (file-name x))) lof))
 
-          ; [List-of Dir] String -> Boolean
+          ; [List-of Dir] -> Boolean
           ; Does file occur in any of the
           ; directories listed in lod?
           (define (file-in-subdirs? lod)
