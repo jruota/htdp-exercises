@@ -18,3 +18,6 @@ curriculum.
 * exercise 224 (incomplete)
 * exercise 225
 * exercise 277
+
+## Exercises that need to be redesigned
+* exercise 342
