@@ -48,6 +48,7 @@
                          0)
                      (total-age (child-father ft))
                      (total-age (child-mother ft)))])))
+       ; – IN –
        (/ (total-age ft) (count-persons ft)))]))
 
 (check-expect (average-age NP 2021)

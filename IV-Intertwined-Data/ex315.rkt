@@ -73,7 +73,7 @@
 
              (define cumulative-age (for/sum ([ft ff]) (total-age ft)))
              (define number-of-children (for/sum ([ft ff]) (count-persons ft))))
-       ; IN
+       ; – IN –
        (if (zero? number-of-children)
            0
            (/ cumulative-age number-of-children)))]))

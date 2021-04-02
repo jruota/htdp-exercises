@@ -52,7 +52,9 @@
 
 ; What is the result of (blue-eyed-ancestor? A) no matter which A you choose?
 
-; The function will always return #false.
+; The function will always return #false, because eventually it will reach an
+; ancestor without a parent and this base case returns #false. This is also the
+; case for all recursive function calls.
 
 ; ------------------------------------------------------------------------------
 
