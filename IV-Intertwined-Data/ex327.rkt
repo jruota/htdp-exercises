@@ -22,6 +22,16 @@
 
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+(define NINE (make-node 99 'i NONE NONE))
+(define EIGHT (make-node 24 'e NONE NONE))
+(define SEVEN (make-node 87 'd NONE NONE))
+(define SIX (make-node 95 'h NONE NINE))
+(define FIVE (make-node 33 'g NONE NONE))
+(define FOUR (make-node 15 'c SEVEN EIGHT))
+(define THREE (make-node 89 'f FIVE SIX))
+(define TWO (make-node 29 'b FOUR NONE))
+
+(define TREE-B (make-node 63 'a TWO THREE))
 
 (define NINE-A (make-node 99 'o NONE NONE))
 (define EIGHT-A (make-node 24 'i NONE NONE))
@@ -106,25 +116,30 @@
 ; (make-node N S NONE NONE).
 (define (create-bst B N S)
   (cond
-    [(no-info? B)
-     (make-node N S NONE NONE)]
-    [else
-     (cond
-       [(< N (node-ssn B))
-        (make-node
-         (node-ssn B)
-         (node-name B)
-         (create-bst (node-left B) N S)
-         (node-right B))]
-       [else
-        (make-node
-         (node-ssn B)
-         (node-name B)
-         (node-left B)
-         (create-bst (node-right B) N S))])]))
+        [(no-info? B)
+         (make-node N S NONE NONE)]
+        [else
+         (if (contains-bt? B N)
+             B
+             (cond
+               [(< N (node-ssn B))
+                (make-node
+                 (node-ssn B)
+                 (node-name B)
+                 (create-bst (node-left B) N S)
+                 (node-right B))]
+               [else
+                (make-node
+                 (node-ssn B)
+                 (node-name B)
+                 (node-left B)
+                 (create-bst (node-right B) N S))]))]))
 
 (check-expect (create-bst NONE 63 'a)
               (make-node 63 ' a NONE NONE))
+; there cannot be tow nodes with the same ssn
+(check-expect (create-bst TREE-A 77 'abc)
+              TREE-A)
 (check-expect (create-bst TREE-A 83 'x)
               (make-node
                63 'a
@@ -146,4 +161,50 @@
                 (make-node
                  95 'g NONE
                  (make-node 99 'o NONE NONE)))))
-                         
+(check-expect (create-bst TREE-A 18 'abc)
+              (make-node
+               63 'a
+               (make-node
+                29 'b
+                (make-node
+                 15 'd
+                 (make-node
+                  10 'h NONE NONE)
+                 (make-node
+                  24 'i
+                  (make-node
+                   18 'abc NONE NONE)
+                  NONE))
+                NONE)
+               (make-node
+                89 'c
+                (make-node
+                 77 'l NONE NONE)
+                (make-node
+                 95 'g NONE
+                 (make-node 99 'o NONE NONE)))))
+
+; BT Number -> Boolean
+; Does n occur in bt?
+(define (contains-bt? bt n)
+  (cond
+    [(no-info? bt) #false]
+    [else
+     (or (= (node-ssn bt) n)
+         (contains-bt? (node-left bt) n)
+         (contains-bt? (node-right bt) n))]))
+
+(check-expect (contains-bt? NONE 77)
+              #false)
+(check-expect (contains-bt? TREE-A 77)
+              #true)
+(check-expect (contains-bt? TREE-B 77)
+              #false)
+(check-expect (contains-bt? TREE-A 99)
+              #true)
+(check-expect (contains-bt? TREE-B 99)
+              #true)
+(check-expect (contains-bt? TREE-A 100)
+              #false)
+(check-expect (contains-bt? TREE-B 100)
+              #false)
