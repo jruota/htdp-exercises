@@ -38,16 +38,11 @@
           ; If sexpr is equal to old,
           ; substitute it with new.
           (define (atom-substitute sexpr)
+            ; signature assumes only symbols are passed for old and new,
+            ; therefore there is no need to check whether sexpr is a symbol
             (if (equal? sexpr old)
                 new
-                sexpr))
-
-          ; Any -> Boolean
-          ; Is a of type atom?
-          (define (atom? a)
-            (or (number? a)
-                (string? a)
-                (symbol? a))))
+                sexpr)))
     ; – IN –
     (cond
       [(atom? sexpr)
@@ -109,24 +104,24 @@
 ;                          'world
 ;                          'apple)
 ;              '((((((hello) apple) hello) apple) hello) apple))
-;
-;; Any -> Boolean
-;; Is a of type atom?
-;(define (atom? a)
-;  (or (number? a)
-;      (string? a)
-;      (symbol? a)))
-;
-;(check-expect (atom? 4.321)
-;              #true)
-;(check-expect (atom? "hello")
-;              #true)
-;(check-expect (atom? '+)
-;              #true)
-;
-;(check-expect (atom? (make-posn 1 2))
-;              #false)
-;(check-expect (atom? empty-image)
-;              #false)
-;(check-expect (atom? '())
-;              #false)
+
+; Any -> Boolean
+; Is a of type atom?
+(define (atom? a)
+  (or (number? a)
+      (string? a)
+      (symbol? a)))
+
+(check-expect (atom? 4.321)
+              #true)
+(check-expect (atom? "hello")
+              #true)
+(check-expect (atom? '+)
+              #true)
+
+(check-expect (atom? (make-posn 1 2))
+              #false)
+(check-expect (atom? empty-image)
+              #false)
+(check-expect (atom? '())
+              #false)
