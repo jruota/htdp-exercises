@@ -10,11 +10,13 @@
 ; – '()
 ; – (cons X [List-of X])
 
-; An S-expr is one of: 
+; A SL is a [List-of S-expr].
+
+; An S-expr is one of:
 ; – Number
 ; – String
 ; – Symbol 
-; – [List-of S-expr]
+; – SL
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -51,6 +53,27 @@
 (check-expect (count 'hello 'hello) 1)
 (check-expect (count '(world hello) 'hello) 1)
 (check-expect (count '((((world) hello) hello) 27) 'hello) 2)
+
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+; ##############################################################################
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+; Integrate the data definition of SL into the one for S-expr. Simplify count
+; again. Consider using lambda.
+
+; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+; A [List-of X] is one of:
+; – '()
+; – (cons X [List-of X])
+
+; An S-expr is one of: 
+; – Number
+; – String
+; – Symbol
+; – [List-of S-expr]
+
+; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; S-expr Symbol -> N 
 ; Count all occurrences of sy in sexp. 
@@ -94,27 +117,6 @@
 (check-expect (count.v3 'hello 'hello) 1)
 (check-expect (count.v3 '(world hello) 'hello) 1)
 (check-expect (count.v3 '((((world) hello) hello) 27) 'hello) 2)
-
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-; ##############################################################################
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-; Integrate the data definition of SL into the one for S-expr. Simplify count
-; again. Consider using lambda.
-
-; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-; A [List-of X] is one of:
-; – '()
-; – (cons X [List-of X])
-
-; An S-expr is one of: 
-; – Number
-; – String
-; – Symbol
-; – [List-of S-expr]
-
-; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; S-expr Symbol -> N
 ; Count all occurences of sy in sexp.
