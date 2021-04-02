@@ -105,6 +105,58 @@
 (check-expect (search-bt.v2 TREE-B 24)
               'e)
 
+; BT Number -> MaybeSymbol
+; Return the value of the name-field
+; if bt contains n in the ssn-field.
+; If there is no such node, return #false.
+(define (search-bt.v3 bt n)
+  (cond
+    [(no-info? bt) #false]
+    [(= (node-ssn bt) n)
+     (node-name bt)]
+    [(contains-bt? (node-left bt) n)
+     (search-bt.v3 (node-left bt) n)]
+    [(contains-bt? (node-right bt) n)
+     (search-bt.v3 (node-right bt) n)]
+    [else #false]))
+
+(check-expect (search-bt.v3 NONE 123)
+              #false)
+(check-expect (search-bt.v3 TREE-A 100)
+              #false)
+(check-expect (search-bt.v3 TREE-A 99)
+              'i)
+(check-expect (search-bt.v3 TREE-B 23)
+              #false)
+(check-expect (search-bt.v3 TREE-B 24)
+              'e)
+
+; BT Number -> MaybeSymbol
+; Return the value of the name-field
+; if bt contains n in the ssn-field.
+; If there is no such node, return #false.
+(define (search-bt.v4 bt n)
+  (cond
+    [(no-info? bt) #false]
+    [(= (node-ssn bt) n)
+     (node-name bt)]
+    [(not (boolean? (search-bt.v4 (node-left bt) n)))
+     (search-bt.v4 (node-left bt) n)]
+    [(not (boolean? (search-bt.v4 (node-right bt) n)))
+     (search-bt.v4 (node-right bt) n)]
+    [else #false]))
+
+(check-expect (search-bt.v4 NONE 123)
+              #false)
+(check-expect (search-bt.v4 TREE-A 100)
+              #false)
+(check-expect (search-bt.v4 TREE-A 99)
+              'i)
+(check-expect (search-bt.v4 TREE-B 23)
+              #false)
+(check-expect (search-bt.v4 TREE-B 24)
+              'e)
+
 ; BT Number -> Boolean
 ; Does n occur in bt?
 (define (contains-bt? bt n)
