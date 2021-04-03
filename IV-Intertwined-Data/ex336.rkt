@@ -61,12 +61,47 @@
 ; correct results?
 
 ; The design recipe is a step by step instruction how to deconstruct complex
-; problems into smaller, more managable tasks. Testing the these smaller
+; problems into smaller, more managable tasks. Testing these smaller
 ; solutions makes sure that they work. Finally, those solutions are combined
 ; into a final solution, and testing that final solution ensures that no
 ; mistakes were made when the functions were put together.
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+; Dir.v3 -> N
+; Determine how many files dir contains.
+(define (how-many.v2 dir)
+  (local (; Files* -> N
+          ; Determine how many files files* contains,
+          ; i.e. its length.
+          (define (how-many-files files*)
+            (length files*))
+
+          ; Dir* -> N
+          ; Determine how many files the directories
+          ; in dir* contain.
+          (define (how-many-in-dir* dir*)
+            (cond
+              [(empty? dir*) 0]
+              [else
+               (+ (how-many (first dir*))
+                  (how-many-in-dir* (rest dir*)))])))
+    ; – IN –
+    (+ (how-many-files (dir.v3-files dir))
+       (how-many-in-dir* (dir.v3-dirs dir)))))
+
+(check-expect (how-many.v2 (make-dir.v3 "Empty" '() '()))
+              0)
+(check-expect (how-many.v2 LIBS)
+              3)
+(check-expect (how-many.v2 DOCS)
+              1)
+(check-expect (how-many.v2 CODE)
+              2)
+(check-expect (how-many.v2 TEXT)
+              3)
+(check-expect (how-many.v2 TS)
+              7)
 
 ; Dir.v3 -> N
 ; Determine how many files dir contains.
