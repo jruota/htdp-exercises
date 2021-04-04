@@ -27,14 +27,16 @@
    (string-append "/home/jruota/learning/cs/teach-yourself-cs/"
                   "01-HtDP/htdp-exercises/IV-Intertwined-Data/TS")))
 
+(define DIR-SIZE 1)
+
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; Dir -> N
 ; Compute the total size of all the
 ; files in the entire directory tree.
 (define (du dir)
-  (+ 1
-     (foldl (lambda (x init) (+ (file-size x) init))  0 (dir-files dir))
+  (+ DIR-SIZE
+     (foldl (lambda (x init) (+ (file-size x) init)) 0 (dir-files dir))
      (foldl + 0 (map du (dir-dirs dir)))))
 
 (check-expect (du (make-dir "empty" '() '()))
