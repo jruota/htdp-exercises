@@ -56,7 +56,9 @@
 
 ; my current Desktop, easy to check for correctness;
 ; run "(how-many DESKTOP)" in the Interactions Area
-; and compare with the Desktop
+; and compare with the Desktop;
+; alternatively one can use "tree /home/jruota/Desktop/"
+; on Linux if "tree" is installed
 (define DESKTOP (create-dir "/home/jruota/Desktop"))
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
