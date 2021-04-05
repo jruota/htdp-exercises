@@ -13,13 +13,6 @@
 ; A Dir is a structure: 
 ;   (make-dir.v3 String [List-of Dir] [List-of File])
 
-; An N is one of:
-; – 0
-; – (add1 N)
-; Interpretation:
-;     The counting numbers,
-;     including 0.
-
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (define TS
