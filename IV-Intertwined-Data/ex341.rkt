@@ -31,15 +31,65 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+; According to the design recipe for intertwined data, there should be four
+; functions (one for File, [List-of File], Dir and [List-of Dir] respectively).
+; The File function would only extract the file size, which is overkill for a
+; standalone function and can be easily achieved in the [List-of File] function.
+
+; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 ; Dir -> N
 ; Compute the total size of all the
 ; files in the entire directory tree.
 (define (du dir)
-  (+ DIR-SIZE
-     (foldl (lambda (x init) (+ (file-size x) init)) 0 (dir-files dir))
-     (foldl + 0 (map du (dir-dirs dir)))))
+  (local (; [List-of File] -> N
+          ; Return the total size of
+          ; all the files in lof.
+          (define (lof-du lof)
+;            (cond
+;              [(empty? lof) 0]
+;              [else
+;               (+ (file-size (first lof))
+;                  (lof-du (rest lof)))]))
+            (foldl + 0 (map file-size lof)))
+
+          ; [List-of Dir] -> N
+          ; Return the total size of all
+          ; the directories in lod.
+          (define (lod-du lod)
+;            (cond
+;              [(empty? lod) 0]
+;              [else
+;               (+ (du (first lod))
+;                  (lod-du (rest lod)))]))
+            (foldl + 0 (map du lod)))
+
+          ; Dir -> N
+          ; Return the total size of all
+          ; files and directories in d.
+          (define (dir-du d)
+            (+ DIR-SIZE
+               (lof-du (dir-files d))
+               (lod-du (dir-dirs d)))))
+    ; – IN –
+    (dir-du dir)))
 
 (check-expect (du (make-dir "empty" '() '()))
               1)
 (check-expect (du TS)
+              212)
+
+; Dir -> N
+; Compute the total size of all the
+; files in the entire directory tree.
+(define (du.v2 dir)
+  (+ DIR-SIZE
+     (foldl + 0 (map file-size (dir-files dir)))
+     (foldl + 0 (map du.v2 (dir-dirs dir)))))
+
+(check-expect (du.v2 (make-dir "empty" '() '()))
+              1)
+(check-expect (du.v2 TS)
               212)
