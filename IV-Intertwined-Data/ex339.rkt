@@ -29,24 +29,49 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+; NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+; According to the design recipe for intertwined data, there should be four
+; functions (one for File, [List-of File], Dir and [List-of Dir] respectively).
+; The File function would only extract the file name, which is overkill for a
+; standalone function and can be easily achieved in the [List-of File] function.
+
+; END NOTE +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 ; Dir String -> Boolean
 ; Does file occur in the directory tree dir?
 (define (find? dir file)
   (local (; [List-of File] -> Boolean
-          ; Does file occur in lof of the current working directory?
-          (define (file-in-current-dir? lof)
-            (ormap (lambda (x) (string=? file (file-name x))) lof))
+          ; Is file in the list of
+          ; files lof?
+          (define (file-find? lof)
+;            (cond
+;              [(empty? lof) #false]
+;              [else
+;               (if (string=? (file-name (first lof)) file)
+;                   #true
+;                   (file-find? (rest lof)))]))
+            (ormap (lambda (x) (string=? (file-name x) file)) lof))
 
           ; [List-of Dir] -> Boolean
-          ; Does file occur in any of the
-          ; directories listed in lod?
-          (define (file-in-subdirs? lod)
-            (ormap (lambda (x) (find? x file)) lod)))
+          ; Is file in any of the dirs
+          ; in lod?
+          (define (lod-find? lod)
+;            (cond
+;              [(empty? lod) #false]
+;              [else
+;               (or
+;                (dir-find? (first lod))
+;                (lod-find? (rest lod)))]))
+            (ormap (lambda (x) (dir-find? x)) lod))
 
+          ; Dir -> Boolean
+          ; Is file in the directory d?
+          (define (dir-find? d)
+            (or (file-find? (dir-files d))
+                (lod-find? (dir-dirs d)))))
     ; – IN –
-
-    (or (file-in-current-dir? (dir-files dir))
-        (file-in-subdirs? (dir-dirs dir)))))
+    (dir-find? dir)))
 
 (check-expect (find? TS "read!")
               #true)
@@ -55,55 +80,15 @@
 (check-expect (find? TS "hang")
               #true)
 
-;; Dir String -> Boolean
-;; Does file occur in the directory tree dir?
-;(define (find? dir file)
-;  (or (file-in-current-dir? (dir-files dir) file)
-;      (file-in-subdirs? (dir-dirs dir) file)))
-;
-;(check-expect (find? TS "read!")
-;              #true)
-;(check-expect (find? TS "part4")
-;              #false)
-;(check-expect (find? TS "hang")
-;              #true)
-;
-;; [List-of File] String -> Boolean
-;; Does file occur in lof of the current working directory?
-;(define (file-in-current-dir? lof file)
-;  (ormap (lambda (x) (string=? file (file-name x))) lof))
-;
-;(check-expect (file-in-current-dir? '() "part1")
-;              #false)
-;(check-expect (file-in-current-dir?
-;               (list
-;                (make-file "part1" 0 (make-date 2021 3 13 7 48 40) "")
-;                (make-file "part2" 0 (make-date 2021 3 13 7 48 45) "")
-;                (make-file "part3" 0 (make-date 2021 3 13 7 48 49) ""))
-;               "part4")
-;              #false)
-;(check-expect (file-in-current-dir?
-;               (list
-;                (make-file "part1" 0 (make-date 2021 3 13 7 48 40) "")
-;                (make-file "part2" 0 (make-date 2021 3 13 7 48 45) "")
-;                (make-file "part3" 0 (make-date 2021 3 13 7 48 49) ""))
-;               "part2")
-;              #true)
-;
-;; [List-of Dir] String -> Boolean
-;; Does file occur in any of the
-;; directories listed in lod?
-;(define (file-in-subdirs? lod file)
-;  (ormap (lambda (x) (find? x file)) lod))
-;
-;(check-expect (file-in-subdirs? '() "draw")
-;              #false)
-;(check-expect (file-in-subdirs? (dir-dirs TS) "draw")
-;              #true)
-;(check-expect (file-in-subdirs? (dir-dirs (first (dir-dirs TS))) "draw")
-;              #true)
-;(check-expect (file-in-subdirs? (dir-dirs (first (dir-dirs TS))) "read!")
-;              #true)
-;(check-expect (file-in-subdirs? (dir-dirs TS) "part4")
-;              #false)
-;              
+; Dir String -> Boolean
+; Does file occur in the directory tree dir?
+(define (find?.v2 dir file)
+  (or (ormap (lambda (x) (string=? (file-name x) file)) (dir-files dir))
+      (ormap (lambda (x) (find?.v2 x file)) (dir-dirs dir))))
+
+(check-expect (find?.v2 TS "read!")
+              #true)
+(check-expect (find?.v2 TS "part4")
+              #false)
+(check-expect (find?.v2 TS "hang")
+              #true)
