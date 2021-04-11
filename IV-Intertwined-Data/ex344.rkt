@@ -17,12 +17,6 @@
 ; Interpretation:
 ;     Directions into a directory tree.
 
-; An XOrEmpty is one of:
-; – '()
-; – X
-; Interpretation:
-;     An X or the empty list.
-
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (define TS
@@ -144,3 +138,4 @@
                     (list "TS" "Text" "part1")
                     (list "TS" "Text" "part2")
                     (list "TS" "Text" "part3")))
+
