@@ -20,4 +20,4 @@ curriculum.
 * exercise 277
 
 ## Exercises that need to be redesigned
-* exercise 342
+* none
