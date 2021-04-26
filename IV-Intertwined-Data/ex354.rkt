@@ -54,7 +54,7 @@
     [(empty? da) (eval-variable ex)]
     [else
      (eval-variable*
-      (subs ex (first (first da)) (second (first da)))
+      (subst ex (first (first da)) (second (first da)))
       (rest da))]))
 
 (check-expect (eval-variable*
@@ -165,7 +165,7 @@
 
 ; BSL-var-expr Symbol Number -> BSL-var-expr
 ; Replace all occurences of x in ex with v.
-(define (subs ex x v)
+(define (subst ex x v)
   (cond
     [(number? ex) ex]
     [(symbol? ex)
@@ -173,21 +173,21 @@
          v
          ex)]
     [(add? ex)
-     (make-add (subs (add-left ex) x v)
-               (subs (add-right ex) x v))]
+     (make-add (subst (add-left ex) x v)
+               (subst (add-right ex) x v))]
     [(mul? ex)
-     (make-mul (subs (mul-left ex) x v)
-               (subs (mul-right ex) x v))]))
+     (make-mul (subst (mul-left ex) x v)
+               (subst (mul-right ex) x v))]))
 
-(check-expect (subs 4 'z 6)
+(check-expect (subst 4 'z 6)
               4)
-(check-expect (subs 'x 'x 5)
+(check-expect (subst 'x 'x 5)
               5)
-(check-expect (subs (make-add 'x 3) 'x 6)
+(check-expect (subst (make-add 'x 3) 'x 6)
               (make-add 6 3))
-(check-expect (subs (make-mul 1/2 (make-mul 'x 3)) 'x 7)
+(check-expect (subst (make-mul 1/2 (make-mul 'x 3)) 'x 7)
               (make-mul 1/2 (make-mul 7 3)))
-(check-expect (subs (make-add (make-mul 'x 'x)
+(check-expect (subst (make-add (make-mul 'x 'x)
                               (make-mul 'y 'y))
                     'y 9)
               (make-add (make-mul 'x 'x)
