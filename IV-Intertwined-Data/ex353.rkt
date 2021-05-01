@@ -9,6 +9,11 @@
 ; – (make-add BSL-var-expr BSL-var-expr)
 ; – (make-mul BSL-var-expr BSL-var-expr)
 
+; A BSL-expr is one of:
+; – Number
+; – Add
+; – Mul
+
 (define-struct add [left right])
 ; An Add is a structure:
 ;     (make-add BSL-expr BSL-expr)
