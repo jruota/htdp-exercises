@@ -3,12 +3,6 @@
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex348) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; A BSL-val is one of:
-; – Number
-; – Boolean
-; – String
-; – Image
-
 (define-struct AND [one two])
 ; An AND is structure:
 ;     (make-AND BSL-bool BSL-bool)
@@ -28,7 +22,7 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; BSL-bool -> BSL-val
+; BSL-bool -> Boolean
 ; Compute the value of bslb.
 (define (eval-bool-expression bslb0)
   (local (; BSL-bool -> BSL-val
@@ -40,19 +34,19 @@
               [(OR? bslb1) (eval-or bslb1)]
               [(NOT? bslb1) (eval-not bslb1)]))
 
-          ; AND -> BSL-val
+          ; AND -> Boolean
           ; Compute the value of a.
           (define (eval-and a)
             (and (eval-bslb (AND-one a))
                  (eval-bslb (AND-two a))))
 
-          ; OR -> BSL-val
+          ; OR -> Boolean
           ; Compute the value of o.
           (define (eval-or o)
             (or (eval-bslb (OR-one o))
                 (eval-bslb (OR-two o))))
 
-          ; NOT -> BSL-val
+          ; NOT -> Boolean
           ; Compute the value of n.
           (define (eval-not n)
             (not (eval-bslb (NOT-one n)))))
