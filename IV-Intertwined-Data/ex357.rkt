@@ -14,7 +14,8 @@
 ; A Func (short for function) is a structure:
 ;     (make-func Symbol BSL-fun-expr)
 ; Interpretation:
-;     The name and the argument of a function.
+;     The name and the argument of a function
+;     Represents a function application.
 
 (define-struct add [left right])
 ; An Add is a structure:
