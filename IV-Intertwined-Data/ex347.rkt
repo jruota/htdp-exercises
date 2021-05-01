@@ -22,11 +22,7 @@
 ;     Represents a multiplication and
 ;     its two operands.
 
-; A BSL-val is one of:
-; – Number
-; – Boolean
-; – String
-; – Image
+; A BSL-val is a Number.
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -75,6 +71,3 @@
                                           (make-mul 2 3))
                                 3.14))
               (* (+ 1 (* 2 3)) 3.14))
-
-
-
