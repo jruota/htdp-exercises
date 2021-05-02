@@ -6,15 +6,15 @@
 ; A BSL-fun-expr is one of: 
 ; – Number
 ; – Symbol
-; – Func
+; – FuncAppl
 ; – (make-add BSL-fun-expr BSL-var-expr)
 ; – (make-mul BSL-fun-expr BSL-var-expr)
 
-(define-struct func [name arg])
-; A Func (short for function) is a structure:
-;     (make-func Symbol BSL-fun-expr)
+(define-struct func-appl [name arg])
+; A FuncAppl (short for function application) is a structure:
+;     (make-func-appl Symbol BSL-fun-expr)
 ; Interpretation:
-;     The name and the argument of a function
+;     The name and the argument of a function.
 ;     Represents a function application.
 
 (define-struct add [left right])
@@ -38,7 +38,7 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; BSL-fun-expr Symbol Symbol BSL-fun-expr -> BSL-fun-expr
+; BSL-fun-expr Symbol Symbol BSL-fun-expr -> Number
 ; Determine the value of ex,
 ; i.e. determine the application
 ; of function f by replacing all
@@ -46,27 +46,57 @@
 ; in the function body b with the
 ; appropriate value.
 (define (eval-definition1 ex f x b)
-  (cond
-    [(number? ex) ex]
-    [(symbol? ex) (error WRONG)]
-    [(func? ex)
-     (if (symbol=? (func-name ex) f)
-         (local ((define value (eval-definition1 (func-arg ex) f x b))
-                 (define plugd (subst b x value)))
-           ; – IN –
-           (eval-definition1 plugd f x b))
-         (error WRONG))]
-    [(add? ex)
-     (+ (eval-definition1 (add-left ex) f x b)
-        (eval-definition1 (add-right ex) f x b))]
-    [(mul? ex)
-     (* (eval-definition1 (mul-left ex) f x b)
-        (eval-definition1 (mul-right ex) f x b))]))
+  (local (; BSL-fun-expr -> Number
+          (define (main ex0)
+            (cond
+              [(number? ex0) ex0]
+              [(symbol? ex0) (error WRONG)]
+              [(func-appl? ex0) (eval-func-appl ex0)]
+              [(add? ex0) (eval-add ex0)]
+              [(mul? ex0) (eval-mul ex0)]))
+
+          ; BSL-fun-expr -> Number
+          (define (eval-func-appl ex1)
+            (if (symbol=? (func-appl-name ex1) f)
+                (local ((define value (eval-definition1 (func-appl-arg ex1)
+                                                        f x b))
+                        (define plugd (subst b x value)))
+                  ; – IN –
+                  (eval-definition1 plugd f x b))
+                (error WRONG)))
+
+          ; BSL-fun-expr -> Number
+          (define (eval-add ex2)
+            (+ (main (add-left ex2))
+               (main (add-right ex2))))
+
+          ; BSL-fun-expr -> Number
+          (define (eval-mul ex3)
+            (* (main (mul-left ex3))
+               (main (mul-right ex3)))))
+    ; – IN –
+    (main ex)))
+;  (cond
+;    [(number? ex) ex]
+;    [(symbol? ex) (error WRONG)]
+;    [(func-appl? ex)
+;     (if (symbol=? (func-appl-name ex) f)
+;         (local ((define value (eval-definition1 (func-appl-arg ex) f x b))
+;                 (define plugd (subst b x value)))
+;           ; – IN –
+;           (eval-definition1 plugd f x b))
+;         (error WRONG))]
+;    [(add? ex)
+;     (+ (eval-definition1 (add-left ex) f x b)
+;        (eval-definition1 (add-right ex) f x b))]
+;    [(mul? ex)
+;     (* (eval-definition1 (mul-left ex) f x b)
+;        (eval-definition1 (mul-right ex) f x b))]))
 
 (check-error (eval-definition1 'sym 'func 'var (make-add 5 'var))
              WRONG)
 (check-error (eval-definition1
-              (make-func 'function 6)
+              (make-func-appl 'function 6)
               'func 'var (make-add 5 'var))
              WRONG)
 
@@ -78,16 +108,17 @@
               6)
 
 (check-expect (eval-definition1
-               (make-func 'k (make-add 1 1))
+               (make-func-appl 'k (make-add 1 1))
                'k 'a FB)
               9)
 (check-expect (eval-definition1
-               (make-mul 5 (make-func 'k (make-add 1 1)))
+               (make-mul 5 (make-func-appl 'k (make-add 1 1)))
                'k 'a FB)
               45)
 
 (check-error (eval-definition1
-              (make-mul (make-func 'i 5) (make-func 'k (make-add 1 1)))
+              (make-mul (make-func-appl 'i 5)
+                        (make-func-appl 'k (make-add 1 1)))
               'k 'a FB)
              WRONG)
 
