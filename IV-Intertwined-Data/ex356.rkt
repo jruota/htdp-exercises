@@ -6,13 +6,13 @@
 ; A BSL-fun-expr is one of: 
 ; – Number
 ; – Symbol
-; – Func
+; – FuncAppl
 ; – (make-add BSL-fun-expr BSL-var-expr)
 ; – (make-mul BSL-fun-expr BSL-var-expr)
 
-(define-struct func [name arg])
-; A Func (short for function) is a structure:
-;     (make-func Symbol BSL-fun-expr)
+(define-struct func-appl [name arg])
+; A FuncAppl (short for function application) is a structure:
+;     (make-func-appl Symbol BSL-fun-expr)
 ; Interpretation:
 ;     The name and the argument of a function.
 ;     Represents a function application.
@@ -34,10 +34,10 @@
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; (k (+ 1 1))
-(make-func 'k (make-add 1 1))
+(make-func-appl 'k (make-add 1 1))
 
 ; (* 5 (k (+ 1 1)))
-(make-mul 5 (make-func 'k (make-add 1 1)))
+(make-mul 5 (make-func-appl 'k (make-add 1 1)))
 
 ; (* (i 5) (k (+ 1 1)))
-(make-mul (make-func 'i 5) (make-func 'k (make-add 1 1)))
+(make-mul (make-func-appl 'i 5) (make-func-appl 'k (make-add 1 1)))
