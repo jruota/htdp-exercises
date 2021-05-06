@@ -10,6 +10,12 @@
 ; – (make-add BSL-fun-expr BSL-var-expr)
 ; – (make-mul BSL-fun-expr BSL-var-expr)
 
+; A BSL-var-expr is one of: 
+; – Number
+; – Symbol 
+; – (make-add BSL-var-expr BSL-var-expr)
+; – (make-mul BSL-var-expr BSL-var-expr)
+
 (define-struct func-appl [name arg])
 ; A FuncAppl (short for function application) is a structure:
 ;     (make-func-appl Symbol BSL-fun-expr)
