@@ -18,6 +18,7 @@ curriculum.
 * exercise 224 (incomplete)
 * exercise 225
 * exercise 277
+* exercise 357 – construct an input for eval-definition1 that causes it to run forever
 
 ## Exercises that need to be redesigned
 * none
