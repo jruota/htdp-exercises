@@ -4,6 +4,10 @@
 ; What is unusual about the definition of this program with respect to the
 ; design recipe?
 
+; From the book:
+;     Note One unusual aspect is that parse uses length on the list argument. 
+;     Real parsers avoid length because it slows the functions down.
+
 ; The function parse-sl deals with SL's and therefore its basic structure
 ; should be
 ;
