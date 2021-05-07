@@ -85,8 +85,8 @@
 (check-expect (subst (make-mul 1/2 (make-mul 'x 3)) 'x 7)
               (make-mul 1/2 (make-mul 7 3)))
 (check-expect (subst (make-add (make-mul 'x 'x)
-                              (make-mul 'y 'y))
-                    'y 9)
+                               (make-mul 'y 'y))
+                     'y 9)
               (make-add (make-mul 'x 'x)
                         (make-mul '9 '9)))
               
