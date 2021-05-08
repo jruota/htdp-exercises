@@ -88,7 +88,7 @@
                              (func-def-para FUNC-DEF)
                              VALUE)))
               ; – IN –
-              (eval-function* PLUGD da)))
+              (main PLUGD)))
 
           ; Add -> Number
           (define (add-eval* a)
@@ -133,47 +133,6 @@
     (cond
       [(empty? RES) (error NO-FUNCTION)]
       [else (first RES)])))
-
-; from ex357.rkt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-; BSL-fun-expr Symbol Symbol BSL-fun-expr -> Number
-; Determine the value of ex,
-; i.e. determine the application
-; of function f by replacing all
-; occurrences of the parameter x
-; in the function body b with the
-; appropriate value.
-(define (eval-definition1 ex f x b)
-  (local (; BSL-fun-expr -> Number
-          (define (main ex0)
-            (cond
-              [(number? ex0) ex0]
-              [(symbol? ex0) (error WRONG)]
-              [(func-appl? ex0) (eval-func-appl ex0)]
-              [(add? ex0) (eval-add ex0)]
-              [(mul? ex0) (eval-mul ex0)]))
-
-          ; BSL-fun-expr -> Number
-          (define (eval-func-appl ex1)
-            (if (symbol=? (func-appl-name ex1) f)
-                (local ((define value (eval-definition1 (func-appl-arg ex1)
-                                                        f x b))
-                        (define plugd (subst b x value)))
-                  ; – IN –
-                  (eval-definition1 plugd f x b))
-                (error WRONG)))
-
-          ; BSL-fun-expr -> Number
-          (define (eval-add ex2)
-            (+ (main (add-left ex2))
-               (main (add-right ex2))))
-
-          ; BSL-fun-expr -> Number
-          (define (eval-mul ex3)
-            (* (main (mul-left ex3))
-               (main (mul-right ex3)))))
-    ; – IN –
-    (main ex)))
 
 ; from ex352.rkt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ; but deals with function applications as well ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
