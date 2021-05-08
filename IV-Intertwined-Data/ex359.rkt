@@ -68,7 +68,7 @@
 ; BSL-fun-expr BSL-fun-def* -> Number
 ; Produce the result that DrRacket shows
 ; if you evaluate ex in the interactions area,
-; assuming the definitions area contains da.
+; assuming the definitions area da contains ex.
 (define (eval-function* ex da)
   (local (; BSL-fun-expr -> Number
           (define (main ex1)
