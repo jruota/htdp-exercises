@@ -64,8 +64,7 @@
           ; BSL-fun-expr -> Number
           (define (eval-func-appl ex1)
             (if (symbol=? (func-appl-name ex1) f)
-                (local ((define value (eval-definition1 (func-appl-arg ex1)
-                                                        f x b))
+                (local ((define value (main (func-appl-arg ex1)))
                         (define plugd (subst b x value)))
                   ; – IN –
                   (eval-definition1 plugd f x b))
