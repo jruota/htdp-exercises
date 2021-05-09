@@ -13,9 +13,11 @@
 
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+; 1. ---------------------------------------------------------------------------
 ;<transition from="seen-e" to="seen-f"></transition>
 '(transition ((from "seen-e") (to "seen-f")))
 
+; 2. ---------------------------------------------------------------------------
 ;<ul>
 ;  <li>
 ;    <word></word>
@@ -35,3 +37,9 @@
   (li
    (word word))
   (li (word)))
+
+; ------------------------------------------------------------------------------
+
+; Neither could be represented in Xexpr.v0, because they have mor then one item.
+
+; The second one could be represented in Xexpr.v1, as it has no attributes.
