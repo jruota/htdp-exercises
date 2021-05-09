@@ -81,8 +81,8 @@
 (check-expect (xexpr-attr e3) '())
 (check-expect (xexpr-attr e4) '((initial "X")))
 
-; [List-of Attribute] or Xexpr.v2 -> Boolean
-; is x a list of attributes
+; [List-of Attribute] or Xexpr -> Boolean
+; Is x a list of attributes?
 (define (list-of-attributes? x)
   (cond
     [(empty? x) #true]
@@ -96,3 +96,4 @@
               #false)
 (check-expect (list-of-attributes? a0)
               #true)
+
