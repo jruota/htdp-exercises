@@ -28,3 +28,22 @@
 ; Attributes is a [List-of Attribute].
 
 ; Body is a [List-of Xexpr.v3].
+
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(define one (cons 'one '()))
+(define two (cons 'two '()))
+(define three (cons 'three '()))
+
+(define body (list one two three))
+
+(define attr-one (cons 'attr (cons "one" '())))
+(define attr-two (cons 'attr (cons "two" '())))
+(define attr-three (cons 'attr (cons "three" '())))
+
+(define attr-list (list attr-one attr-two attr-three))
+
+(define Rest (cons attr-list body))
+
+(cons 'symbol body)
+(cons 'symbol Rest)
