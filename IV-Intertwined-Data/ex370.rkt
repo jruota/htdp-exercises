@@ -86,6 +86,7 @@
 ; Extract the value of xw.
 (define (word-text xw)
   (second (first (second xw))))
+  ;(first (rest (first (first (rest xw))))))
 
 (check-expect (word-text WORD1)
               "banana")
