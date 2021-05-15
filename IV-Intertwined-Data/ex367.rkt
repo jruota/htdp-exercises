@@ -25,4 +25,4 @@
 ; The finished parsing function does not cotain a self-reference, because its
 ; purpose is to find the attributes of the "parent" Xexpr. Therefore there is
 ; no need to deal with the "child" Xexpr'essions contained in the "parent" Xexpr
-; and not self-reference.
+; and no self-reference.
