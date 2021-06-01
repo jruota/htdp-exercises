@@ -19,6 +19,7 @@ curriculum.
 * exercise 225
 * exercise 277
 * exercise 357 – construct an input for eval-definition1 that causes it to run forever
+* exercise 386 – Google financial services does not supply the necessary data anymore
 
 ## Exercises that need to be redesigned
 * none
