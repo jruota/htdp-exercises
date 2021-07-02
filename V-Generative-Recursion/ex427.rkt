@@ -12,12 +12,11 @@
 (define (quick-sort< alon)
   (cond
     [(empty? alon) '()]
-    [(empty? (rest alon)) alon]
     [(> THRESHOLD (length alon)) (sort< alon)]
     [else
-     (append (quick-sort< (smallers (rest alon) (first alon)))
+     (append (quick-sort< (smallers alon (first alon)))
              (list (first alon))
-             (quick-sort< (largers (rest alon) (first alon))))]))
+             (quick-sort< (largers alon (first alon))))]))
 
 (check-expect (quick-sort< '()) '())
 (check-expect (quick-sort< (list 23)) (list 23))
