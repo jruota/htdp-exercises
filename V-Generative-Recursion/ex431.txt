@@ -1,0 +1,46 @@
+1) What is a trivially solvable problem?
+
+2) How are trivial solutions solved?
+
+3) How does the algorithm generate new problems that are more easily solvable
+   than the original one? Is there one new problem that we generate or are there
+   several?
+   
+4) Is the solution of the given problem the same as the solution of (one of) the
+   new problems? Or, do we need to combine the solutions to create a solution
+   for the original problem? And, if so, do we need anything from the original
+   problem data?
+   
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+bundle – Bundle chunks of 1String into string of length n
+[List-of 1String] N -> [List-of String]
+
+1) The empty list.
+
+2) Return the input, i.e. the empty list.
+
+3) By removing n items from the original input, if possible.
+   There is one new problem.
+
+4) The solutions are different and need to be combined.
+   The firs n elements from the original problem data are needed.
+   
+How many instances of generate-problem are needed?
+    One per recursive call.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+quick-sort< – Produce a sorted version of [List-of Number]
+[List-of Number] -> [List-of Number]
+
+1) The empty list as well as lists with only one item.
+
+2) Return the original input.
+
+3) By removing one item from the input and then splitting the rest in two parts,
+   each of which is smaller than the original.
+   There are two new problems.
+   
+How many instances of generate-problem are needed?
+    Two per recursive call.
