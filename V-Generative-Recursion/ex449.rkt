@@ -14,35 +14,26 @@
 ; generative divides interval in half, the root is in one of the two
 ; halves, picks according to assumption 
 (define (find-root f left right)
-  (cond
-    [(<= (- right left) ε) left]
-    [else
-     (local ((define mid (/ (+ left right) 2))
-             (define f@mid (f mid))
-             (define f@left (f left))
-             (define f@right (f right))
+  (local ((define f@left (f left))
+          (define f@right (f right))
 
-             ; Number Number Number Number -> Number
-             ; Helper function to find-root
-             ; that avoids recomputations.
-             (define (root-helper l r f@l f@r)
-               (cond
-                 [(<= (- r l) ε) l]
-                 [else
-                  (local ((define m (/ (+ l r) 2))
-                          (define f@m (f mid)))
-                    ; – IN –
-                    (cond
-                      [(or (<= f@l 0 f@m) (<= f@m 0 f@l))
-                       (root-helper l m f@l f@m)]
-                      [(or (<= f@m 0 f@r) (<= f@r 0 f@m))
-                       (root-helper m r f@m f@r)]))])))
-       ; – IN –
-       (cond
-         [(or (<= f@left 0 f@mid) (<= f@mid 0 f@left))
-          (root-helper left mid f@left f@mid)]
-         [(or (<= f@mid 0 f@right) (<= f@right 0 f@mid))
-          (root-helper mid right f@mid f@right)]))]))
+          ; Number Number Number Number -> Number
+          ; Helper function to find-root
+          ; that avoids recomputations.
+          (define (root-helper l r f@l f@r)
+            (cond
+              [(<= (- r l) ε) l]
+              [else
+               (local ((define m (/ (+ l r) 2))
+                       (define f@m (f m)))
+                 ; – IN –
+                 (cond
+                   [(or (<= f@l 0 f@m) (<= f@m 0 f@l))
+                    (root-helper l m f@l f@m)]
+                   [(or (<= f@m 0 f@r) (<= f@r 0 f@m))
+                    (root-helper m r f@m f@r)]))])))
+    ; – IN –
+    (root-helper left right f@left f@right)))
 
 (check-satisfied (find-root poly 1 3) (range-checker 1 3))
 (check-satisfied (find-root poly 3 19) (range-checker 3 19))
