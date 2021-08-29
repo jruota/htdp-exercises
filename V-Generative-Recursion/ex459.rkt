@@ -24,8 +24,12 @@
             (cond
               [(>= n R) 0]
               [else
-               (+ (* width (f (+ a (* n width) (/ width 2))))
-                  (approximate-area (add1 n)))])))
+               (local ((define height (f (+ a (* n width) (/ width 2)))))
+                 ; – IN –
+                 (+ (* width height)
+                    (approximate-area (add1 n))))])))
+;               (+ (* width (f (+ a (* n width) (/ width 2))))
+;                  (approximate-area (add1 n)))])))
     ; – IN –
     (approximate-area 0)))
  
