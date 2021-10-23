@@ -22,8 +22,8 @@
    ; vertical
    (= (posn-y one) (posn-y two))
    ; diagonal left top to right bottom
-   (= (abs (- (posn-x one) (posn-y one)))
-      (abs (- (posn-x two) (posn-y two))))
+   (= (- (posn-x one) (posn-y one))
+      (- (posn-x two) (posn-y two)))
    ; diagonal left bottom to right top
    (= (+ (posn-x one) (posn-y one))
       (+ (posn-x two) (posn-y two)))))
@@ -56,4 +56,6 @@
 (check-expect (threatening? (make-posn 5 1) (make-posn 7 2))
               #false)
 (check-expect (threatening? (make-posn 6 6) (make-posn 5 1))
+              #false)
+(check-expect (threatening? (make-posn 0 1) (make-posn 3 2))
               #false)
