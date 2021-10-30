@@ -29,7 +29,7 @@
 ; Compute the divisors of l smaller or equal to k.
 (define (divisors k l)
   (cond
-    [(< k 1) '()]
+    [(zero? k) '()]
     [else
      (if (= (remainder l k) 0)
          (cons k (divisors (sub1 k) l))
@@ -51,17 +51,20 @@
 ; Find the largest number common to both k and l.
 ; If there is no such number, return #false.
 (define (largest-common k l)
-  (local (; [NEList-of N] [NEList-of N] -> NorFalse
-          ; Find the first number common to both k and l.
+  (local (; [NEList-of N] -> NorFalse
+          ; Find the first number common to both k0 and l.
           ; If there is no such number, return #false.
-          (define (ne-largest-common k0 l0)
-            (if (member? (first k0) l0)
-                (first k0)
-                (largest-common (rest k) l))))
+          (define (ne-largest-common k0)
+            (cond
+              [(empty? k0) #false]
+              [else
+               (if (member? (first k0) l)
+                   (first k0)
+                   (ne-largest-common (rest k0)))])))
     ; – IN –
-    (if (empty? k)
+    (if (empty? l)
         #false
-        (ne-largest-common (sort k >) l))))
+        (ne-largest-common (sort k >)))))
 
 (check-expect (largest-common '() '()) #false)
 (check-expect (largest-common '() (list 1 2 3 4 5)) #false)
