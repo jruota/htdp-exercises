@@ -24,7 +24,7 @@ bundle – Bundle chunks of 1String into string of length n
    There is one new problem.
 
 4) The solutions are different and need to be combined.
-   The firs n elements from the original problem data are needed.
+   The first n elements from the original problem data are needed.
    
 How many instances of generate-problem are needed?
     One per recursive call.
@@ -44,3 +44,4 @@ quick-sort< – Produce a sorted version of [List-of Number]
    
 How many instances of generate-problem are needed?
     Two per recursive call.
+
