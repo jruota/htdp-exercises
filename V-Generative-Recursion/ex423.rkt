@@ -21,7 +21,7 @@
   (local ((define letters (explode s))
 
           ; [List-of 1String] -> [List-of String]
-          ; 
+          ; Do the actual work.
           (define (main lo1s)
             (cond
               [(empty? lo1s) '()]
