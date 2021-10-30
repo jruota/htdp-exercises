@@ -10,9 +10,15 @@
     [else
      ; the use of "rest" ensures that the functions receive lists that are
      ; shorter than the original one
-     (append (quick-sort< (smallers (rest alon) (first alon)))
-             (list (first alon))
-             (quick-sort< (largers (rest alon) (first alon))))]))
+     (local ((define pivot (first alon))
+             (define numbers (rest alon)))
+       ; – IN –
+       (append (quick-sort< (smallers numbers pivot))
+               (list pivot)
+               (quick-sort< (largers numbers pivot))))]))
+;     (append (quick-sort< (smallers (rest alon) (first alon)))
+;             (list (first alon))
+;             (quick-sort< (largers (rest alon) (first alon))))]))
 
 (check-expect (quick-sort< '()) '())
 (check-expect (quick-sort< (list 23)) (list 23))
