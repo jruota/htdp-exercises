@@ -4,8 +4,8 @@
 ; NOTE -------------------------------------------------------------------------
 
 ; The functions use "(rest lox)" and thus are not completely
-; generatively recursive, as this structurally recursive. Thus the functions use
-; a mixture of generative and structural recursion.
+; generatively recursive, as this is structurally recursive. Thus the functions
+; use a mixture of generative and structural recursion.
 
 ; END NOTE ---------------------------------------------------------------------
 
