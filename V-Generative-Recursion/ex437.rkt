@@ -15,21 +15,30 @@
 
 ; special computes the length of its input
 
-;(define (solve x)
-;  0)
-;
-;(define (combine-solutions x y)
-;  (+ 1 y))
-;
-;(check-expect (special (range 1 11 1)) 10)
+; Any -> 0
+; Return zero.
+(define (solve x)
+  0)
+
+; Any Number -> Number
+; Add 1 to y, discard x.
+(define (combine-solutions x y)
+  (+ 1 y))
+
+(check-expect (special (range 1 11 1)) 10)
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; special negates each number on the given list of numbers
 
+;; Any -> '()
+;; Return the empty list.
 ;(define (solve x)
 ;  '())
 ;
+;; [List-of Number] [List-of Number] -> [List-of Number]
+;; Negate the first number in x (if it is not negative
+;; already) and add it to y.
 ;(define (combine-solutions x y)
 ;  (cons (if (> (first x) 0)
 ;            (* -1 (first x))
@@ -42,15 +51,19 @@
 
 ; special uppercases the given list of strings
 
-(define (solve x)
-  '())
-
-(define (combine-solutions x y)
-  (cons (if (string=? "" (first x))
-            ""
-            (string-append (string-upcase (substring (first x) 0 1))
-                           (substring (first x) 1 (string-length (first x)))))
-        y))
-
-(check-expect (special (list "hello" "" "world" "banana" "orange" "alabama"))
-              (list "Hello" "" "World" "Banana" "Orange" "Alabama"))
+;; Any -> '()
+;; Return the empty list.
+;(define (solve x)
+;  '())
+;
+;; [List-of String] [List-of String] -> [List-of String]
+;; Add the uppercase version of the first item
+;; in x to the front of y.
+;(define (combine-solutions x y)
+;  (cons (if (string=? "" (first x))
+;            ""
+;            (string-upcase (first x)))
+;        y))
+;
+;(check-expect (special (list "hello" "" "world" "banana" "orange" "alabama"))
+;              (list "HELLO" "" "WORLD" "BANANA" "ORANGE" "ALABAMA"))
