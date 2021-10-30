@@ -31,7 +31,7 @@
 ;     arguments flipped.
 
 ; Fourth conditional:
-;     Deals with all of those cases where neither of the arguments is equal to
+;     Deals with all of those cases where neither of the arguments is equal to 1
 ;     by delegating a different problem to a recursive call.
 
 ; The problem with approach is that only the first three conditionals return
