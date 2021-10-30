@@ -16,19 +16,26 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; N -> [List-of Numbers]
+; N -> [List-of Number]
 ; Return a list of numbers that has n items
 ; which are in the range [0, n].
 (define (create-tests n)
-  (cond
-    [(and (integer? n) (>= n 0))
-     (cond
-       [(zero? n) '()]
-       [(positive? n)
-        (cons (random (add1 n))
-              (create-tests (sub1 n)))])]
-    [else
-     (error INPUT-ERROR)]))
+  (local ((define COUNTER n)
+
+          ; N -> [List-of Number]
+          ; Do the actual work.
+          (define (random-numbers n0)
+            (cond
+              [(zero? n0) '()]
+              [else
+               (cons (random (add1 n))
+                     (random-numbers (sub1 n0)))])))
+    ; – IN –
+    (cond
+      [(and (integer? n) (>= n 0))
+       (random-numbers COUNTER)]
+      [else
+       (error INPUT-ERROR)])))
 
 (check-expect (create-tests 0)
               '())
