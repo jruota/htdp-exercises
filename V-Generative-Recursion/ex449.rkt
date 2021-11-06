@@ -4,6 +4,7 @@
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (define ε 0.000000001)
+(define DELTA 0.001)
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -43,6 +44,9 @@
 (check-expect (find-root poly 1.9999999999 2.0000000001)
               1.9999999999)
 
+(check-satisfied (find-root poly 1 3) (within-delta? poly))
+(check-satisfied (find-root poly 3 19) (within-delta? poly))
+
 ; Number -> Number
 (define (poly x)
   (* (- x 2) (- x 4)))
@@ -57,6 +61,17 @@
             (and (<= a x) (<= x b))))
     ; – IN –
     within-range?))
+
+; [Number -> Number] -> [Number -> Boolean]
+; Create a predicate that checks whether the result
+; of (f a) is within DELTA of 0.
+(define (within-delta? f)
+  (local (; Number -> Boolean
+          ; Is a within DELTA of 0?
+          (define (main a)
+            (<= (f a) DELTA)))
+    ; – IN –
+    main))
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

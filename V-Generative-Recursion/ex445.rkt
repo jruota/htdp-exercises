@@ -1,6 +1,12 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex445) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(define DELTA 0.001)
+
+; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ; [Number -> Number] Number Number -> Number
 ; determines R such that f has a root in [R,(+ R ε)]
 ; assume f is continuous 
@@ -12,6 +18,9 @@
 
 (check-satisfied (find-root poly 1 3) (range-checker 1 3))
 (check-satisfied (find-root poly 3 19) (range-checker 3 19))
+
+(check-satisfied (find-root poly 1 3) (within-delta? poly))
+(check-satisfied (find-root poly 3 19) (within-delta? poly))
 
 ; Number -> Number
 (define (poly x)
@@ -27,6 +36,17 @@
             (and (<= a x) (<= x b))))
     ; – IN –
     within-range?))
+
+; [Number -> Number] -> [Number -> Boolean]
+; Create a predicate that checks whether the result
+; of (f a) is within DELTA of 0.
+(define (within-delta? f)
+  (local (; Number -> Boolean
+          ; Is a within DELTA of 0?
+          (define (main a)
+            (<= (f a) DELTA)))
+    ; – IN –
+    main))
 
 ; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -4,6 +4,7 @@
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (define ε 0.000000001)
+(define DELTA 0.001)
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -18,9 +19,7 @@
   (cond
     [(<= (- right left) ε) left]
     [else
-     (local ((define mid (/ (+ left right) 2))
-             (define f@mid (f mid))
-             (define f@left (f left))
+     (local ((define f@left (f left))
              (define f@right (f right))
 
              ; Number Number Number Number -> Number
@@ -30,20 +29,16 @@
                (cond
                  [(<= (- r l) ε) l]
                  [else
-                  (local ((define m (/ (+ l r) 2))
+                  (local ((define mid (/ (+ l r) 2))
                           (define f@m (f mid)))
                     ; – IN –
                     (cond
-                      [(<= f@l 0 f@m)    ; change
-                       (root-helper l m f@l f@m)]
-                      [(<= f@m 0 f@r)    ; change
-                       (root-helper m r f@m f@r)]))])))
+                      [(<= f@l 0 f@m)    ; changed
+                       (root-helper l mid f@l f@m)]
+                      [(<= f@m 0 f@r)    ; changed
+                       (root-helper mid r f@m f@r)]))])))
        ; – IN –
-       (cond
-         [(<= f@left 0 f@mid)            ; change
-          (root-helper left mid f@left f@mid)]
-         [(<= f@mid 0 f@right)           ; change
-          (root-helper mid right f@mid f@right)]))]))
+       (root-helper left right f@left f@right))]))
 
 (check-satisfied (find-root poly 3.1 19) (range-checker 3.1 19))
 (check-satisfied (find-root poly 3.1 4.0000000001)
@@ -51,6 +46,9 @@
 
 (check-expect (find-root poly 3.9999999999 4.0000000001)
               3.9999999999)
+
+(check-satisfied (find-root poly 3 6) (within-delta? poly))
+(check-satisfied (find-root poly 3 19) (within-delta? poly))
 
 ; Number -> Number
 (define (poly x)
@@ -66,3 +64,14 @@
             (and (<= a x) (<= x b))))
     ; – IN –
     within-range?))
+
+; [Number -> Number] -> [Number -> Boolean]
+; Create a predicate that checks whether the result
+; of (f a) is within DELTA of 0.
+(define (within-delta? f)
+  (local (; Number -> Boolean
+          ; Is a within DELTA of 0?
+          (define (main a)
+            (<= (f a) DELTA)))
+    ; – IN –
+    main))
