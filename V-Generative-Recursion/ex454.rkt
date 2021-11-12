@@ -35,6 +35,11 @@
               (list (list 1 2 3)
                     (list 4 5 6)
                     (list 7 8 9)))
+(check-expect (create-matrix 4 (list 11 13 4 4 10 11 2 3 7 4 4 7 2 16 7 7))
+              (list (list 11 13 4 4)
+                    (list 10 11 2 3)
+                    (list  7  4 4 7)
+                    (list  2 16 7 7)))
 
 ; N [List-of Number] -> [List-of Number]
 ; Return the first n numbers from lon.
