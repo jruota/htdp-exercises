@@ -101,4 +101,34 @@
   (* 2 x))
 
 (define (quadratic x)
-  (- (* 1/2 (expt (+ x 3) 2)) 8)) 
+  (- (* 1/2 (expt (+ x 3) 2)) 8))
+
+; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+; How many calls to find are needed in find-linear and find-binary,
+; respectively?
+
+; For find-linear, if the root is at the nth position, (+ n 1) calls
+; are needed (+1 because the first call is at position 0).
+
+; For find-binary, if the root is at the nth position, (/ (log S) (log 0.5))
+; calls are needed, where S is the interval to be searched for the root.
+
+; DERIVING THE FORMULA ---------------------------------------------------------
+
+; If one is to find a root in the interval [a, b] and S = (- b a), a solution
+; is found if S <= 1.
+
+; The interval S is halved until the condition is met,
+; i.e. (* S (expt 0.5 n)) <= 1.
+
+; Solve for n:
+
+;    (* S (expt 0.5 n)) <= 1
+;          (expt 0.5 n) <= (/ 1 S)
+;    (log (expt 0.5 n)) <= (log (/ 1 S))
+;       (* n (log 0.5)) <= (log (/ 1 S))         [exponent logarithm rule]
+;       (* n (log 0.5)) <= (- (log 1) (log S))   [division logarithm rule]
+;                     n <= (/ (- (log 1) (log S)) (log 0.5))
+
+; END OF DERIVATION ------------------------------------------------------------
