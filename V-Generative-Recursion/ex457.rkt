@@ -1,6 +1,12 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex457) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+(define EPSILON .6)
+
+; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ; Number Number -> N
 ; Compute how many months it takes to double a given amount
 ; of money a when a savings account pays interest at a fixed
@@ -18,7 +24,7 @@
     ; – IN –
     (helper 1)))
 
-(check-within (double-amount 100 .02) 72/2 .9)
-(check-within (double-amount 100 .03) 72/3 .9)
-(check-within (double-amount 100 .04) 72/4 .9)
-(check-within (double-amount 100 .05) 72/5 .9)
+(check-within (double-amount 100 .02) 72/2 EPSILON)
+(check-within (double-amount 100 .03) 72/3 EPSILON)
+(check-within (double-amount 100 .04) 72/4 EPSILON)
+(check-within (double-amount 100 .05) 72/5 EPSILON)
