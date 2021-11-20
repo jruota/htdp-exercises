@@ -33,12 +33,14 @@
  
 (define S '(1 1 2)) ; a Solution
 
+(define ARG-ERROR "arguments must have the same length")
+
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; SOE Solution -> Boolean
 ; Return #true if plugging in the numbers from sol
 ; for the variables in the Equations of soe produces
-; equal left-hand-side values and right-hand-side values
+; equal left-hand-side values and right-hand-side values.
 ; Return #false otherwise.
 (define (check-solution soe sol)
   (cond
@@ -52,26 +54,39 @@
 (check-expect (check-solution M (list 1 1 1))
               #false)
 
+(check-satisfied (check-solution M S) (lambda (x) (not (false? x))))
+(check-satisfied (check-solution M (list 1 1 1)) false?)
+
 ; [List-of Number] Solution -> Number
 ; Calculate the value of the left-hand side when the numbers from sol
 ; are plugged in for the variables in l.
 (define (plug-in l sol)
-  (cond
-    [(or (empty? l) (empty? sol)) 0]
-    [else
-     (+ (* (first l) (first sol))
-        (plug-in (rest l) (rest sol)))]))
+  (local (; [List-of Number] Solution -> Number
+          ; Do the actual work.
+          (define (main l0 sol0)
+            (cond
+              [(and (empty? l0) (empty? sol0)) 0]
+              [else
+               (+ (* (first l0) (first sol0))
+                  (plug-in (rest l0) (rest sol0)))])))
+    ; – IN –
+    (cond
+      [(= (length l) (length sol))
+       (main l sol)]
+      [else
+       (error ARG-ERROR)])))
 
-(check-expect (plug-in '() S)
-              0)
-(check-expect (plug-in (lhs (first M)) '())
-              0)
 (check-expect (plug-in (lhs (first M)) S)
               10)
 (check-expect (plug-in (lhs (second M)) S)
               31)
 (check-expect (plug-in (lhs (third M)) S)
               1)
+
+(check-error (plug-in '() (list 1 2 3))
+             ARG-ERROR)
+(check-error (plug-in (list 1 2 3) (list 12 34))
+             ARG-ERROR)
 
 ; Equation -> [List-of Number]
 ; extracts the left-hand side from a row in a matrix
