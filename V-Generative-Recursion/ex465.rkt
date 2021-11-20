@@ -60,10 +60,33 @@
 
 (check-error (subtract (list 1 2 3) (list 1))
              LENGTH-ERROR)
+
 (check-expect (subtract (lhs (second M)) (lhs (first M)))
               (lhs (second M2)))
 (check-expect (subtract (lhs (third M)) (lhs (first M)))
               (lhs (third M3)))
+
+; Equation Equation -> Equation
+; Subtract a multiple of the second equation from the first,
+; item by item, so that the resulting Equation has a 0 in
+; the first position.
+(define (subtract.v2 e1 e2)
+  (cond
+    [(= (length e1) (length e2))
+     (local ((define coeff (/ (first e1) (first e2))))
+       ; – IN –
+       ; (rest ...) removes the leading zero
+       (rest (map (lambda (x y) (- x (* coeff y))) e1 e2)))]
+    [else
+     (error LENGTH-ERROR)]))
+
+(check-error (subtract.v2 (list 1 2 3) (list 1))
+             LENGTH-ERROR)
+
+(check-expect (subtract.v2 (lhs (second M)) (lhs (first M)))
+              (list 3  9))
+(check-expect (subtract.v2 (lhs (third M)) (lhs (first M)))
+              (list -3 -8))
 
 ; Equation -> [List-of Number]
 ; extracts the left-hand side from a row in a matrix
