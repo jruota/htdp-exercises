@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex466-new) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex466) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; An SOE is a non-empty Matrix.
@@ -63,12 +63,13 @@
 
 ; How are trivial solutions solved?
 ;     Nothing needs to be done (solution can easily be calculated by dividing
-;     the left-hand-side by the right-hand-side coefficient).
+;     the right-hand-side by the left-hand-side coefficient).
 
 ; How does the algorithm generate new problems that are more easily solvable
 ; than the original one?
 ;     The Matrix becomes smaller and smaller until a trivially solvable problem
 ;     remains.
+
 ; Is there one new problem that we generate or are there several?
 ;     There is only one new problem, that is triangulate
 ;     the new, smaller Matrix.
@@ -84,7 +85,7 @@
      (local (; SOE -> SOE
              ; Subtract a multiple of top from the equations in m,
              ; item by item, so that the resulting equations have a 0 in
-             ; the first position, i.e. the first coeffiecient is 0.
+             ; the first position, i.e. the first coefficient is 0.
              (define (subtract-loop top m)
                (cond
                  [(empty? m) '()]
