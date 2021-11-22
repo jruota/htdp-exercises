@@ -103,6 +103,42 @@
 (check-expect (triangulate M4) M5)
 (check-error (triangulate M6))
 
+; SOE -> TM
+; Triangulate the given system of equations.
+(define (triangulate.v2 M)
+  (local (; SOE -> TM
+          ; Do the actual work.
+          (define (main M0)
+            (cond
+              [(= (length M0) 1) M0]
+              [else
+               (cons (first M)
+                     (triangulate
+                      (rotate
+                       (subtract-loop (first M0) (rest M0)))))]))
+          
+          ; SOE -> SOE
+          ; Subtract a multiple of top from the equations in m,
+          ; item by item, so that the resulting equations have a 0 in
+          ; the first position, i.e. the first coeffiecient is 0.
+          (define (subtract-loop top m)
+            (cond
+              [(empty? m) '()]
+              [else
+               (cons (subtract (first m) top)
+                     (subtract-loop top (rest m)))])))
+  ; – IN –
+  (cond
+    [(all-leading-coefficients-zero? M) (error SOLUTION-ERROR)]
+    [else (main M)])))
+
+(check-expect (triangulate.v2 (list (list 1 2 3) (list 2 3 4)))
+              (list (list 1 2 3) (list -1 -2))) 
+(check-expect (triangulate.v2 M) M2)
+(check-expect (triangulate.v2 M4) M5)
+(check-error (triangulate.v2 M6))
+
+
 ; SOE -> Boolean
 ; Are all leading coefficients
 ; in soe zero?
