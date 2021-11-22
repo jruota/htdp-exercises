@@ -88,6 +88,36 @@
 (check-expect (subtract.v2 (lhs (third M)) (lhs (first M)))
               (list -3 -8))
 
+; Equation Equation -> Equation
+; Subtract a multiple of the second equation from the first,
+; item by item, so that the resulting Equation has a 0 in
+; the first position.
+(define (subtract.v3 e1 e2)
+  (local ((define coeff (/ (first e1) (first e2)))
+
+          ; Equation Equation -> Equation
+          ; Do the actual work.
+          (define (main e01 e02)
+            (cond
+              [(empty? e01) '()]
+              [else
+               (cons (- (first e01) (* coeff (first e02)))
+                     (main (rest e01) (rest e02)))])))
+    ; – IN –
+    (cond
+      [(= (length e1) (length e2))
+       (rest (main e1 e2))]     ; (rest ...) removes the leading zero
+      [else
+       (error LENGTH-ERROR)])))
+
+(check-error (subtract.v3 (list 1 2 3) (list 1))
+             LENGTH-ERROR)
+
+(check-expect (subtract.v3 (lhs (second M)) (lhs (first M)))
+              (list 3  9))
+(check-expect (subtract.v3 (lhs (third M)) (lhs (first M)))
+              (list -3 -8))
+
 ; Equation -> [List-of Number]
 ; extracts the left-hand side from a row in a matrix
 (check-expect (lhs (first M)) '(2 2 3))
