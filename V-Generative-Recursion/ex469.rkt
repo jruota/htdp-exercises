@@ -60,8 +60,8 @@
 ; matrix tm.
 (define (solve tm)
   (local (; Equation [List-of Number]
-          ; Solve for the first coefficient in eq
-          ; by replacing all other coefficients with
+          ; Solve for the first variable in eq
+          ; by replacing all other variables with
           ; the values from lon, i.e. solve the
           ; equation eq with (+ n 1) variables
           ; given a solution for the last n variables.
@@ -77,6 +77,34 @@
 
 (check-expect (solve M1) S1)
 (check-expect (solve M2) S2)
+
+; TM -> [List-of Number]
+; Find the solution of the triangular
+; matrix tm.
+(define (solve.v2 tm)
+  (local (; Equation [List-of Number]
+          ; Solve for the first variable in eq
+          ; by replacing all other variables with
+          ; the values from lon, i.e. solve the
+          ; equation eq with (+ n 1) variables
+          ; given a solution for the last n variables.
+          (define (solve-equation eq lon)
+            (local ((define first-coefficient (first eq))
+                    (define solved-coefficients (rest (lhs eq)))
+                    (define right-hand-side (rhs eq)))
+              ; – IN –
+              (cons
+               (/ (- right-hand-side (plug-in solved-coefficients lon))
+                  first-coefficient)
+               lon))))
+    ; – IN –
+    (cond
+      [(empty? tm) '()]
+      [else
+       (solve-equation (first tm) (solve.v2 (rest tm)))])))
+
+(check-expect (solve.v2 M1) S1)
+(check-expect (solve.v2 M2) S2)
 
 ; from ex462.rkt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
