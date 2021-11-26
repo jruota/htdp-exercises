@@ -146,5 +146,5 @@
 
 (find-path 'A 'G sample-graph)
 
-; It finds (list 'A 'B 'E 'F 'G) and not (list 'A 'B 'F 'G) because 'E is listed
-; before 'F as a direct neighbor of 'B.
+; It finds (list 'A 'B 'E 'F 'G) and not (list 'A 'B 'F 'G) (or 'A 'E 'F 'G)
+; because 'E is listed before 'F as a direct neighbor of 'B.
