@@ -23,4 +23,7 @@ curriculum.
 * exercise 424 – drawn on paper
 
 ## Exercises that need to be redesigned
-* none
+* exercise 472 – the exercise now asks "... whether there is a path between every pair of nodes.",
+                 not "... whether there is a path between any pair of nodes." as before.
+* exercise 473 – uses exercise 472
+
