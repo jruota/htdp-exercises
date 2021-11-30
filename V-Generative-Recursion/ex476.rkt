@@ -17,12 +17,6 @@
 (define DD "finished")
 (define ER "error, illegal key")
 
-; ExpectsToSee is one of:
-; – AA
-; – BB
-; – DD 
-; – ER
-
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 (define fsm-a-bc*-d
@@ -37,23 +31,30 @@
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; FSM String -> Boolean 
-; Does an-fsm recognize the given string?
+; Does an-fsm recognize the given string,
+; i.e. return #true when a-string causes
+; the finite state machine an-fsm to transition
+; from an initial state to a final state.
 (define (fsm-match? an-fsm a-string)
   (local (; FSM-State [List-of 1String] -> Boolean
-          ; Starting from current state of an-fsm, are
-          ; the transitions represented by remaining legal,
-          ; i.e. do they lead to the final state of an-fsm?
+          ; Starting with current, are the state
+          ; transitions specified by remaining legal?
           (define (legal-transitions? current remaining)
             (cond
-              [(empty? remaining) #true]
+              [(empty? remaining)
+               (equal? current (fsm-final an-fsm))]
               [else
                (local ((define next-state
                          (next an-fsm current (first remaining))))
                  ; – IN –
-                 (and (legal-state? an-fsm next-state)
-                      (legal-transitions? next-state (rest remaining))))])))
+                 (if (string=? next-state ER)
+                     #false
+                     (legal-transitions? next-state (rest remaining))))])))
     ; – IN –
-    (legal-transitions? (fsm-initial an-fsm) (explode a-string))))
+    (cond
+      [(string=? "" a-string) #true]
+      [else
+       (legal-transitions? (fsm-initial an-fsm) (explode a-string))])))
 
 (check-expect (fsm-match? fsm-a-bc*-d "ad")
               #true)
@@ -78,70 +79,37 @@
 (check-expect (fsm-match? fsm-a-bc*-d "abcf")
               #false)
 
-; FSM String String -> String
-; Find the next state of an-fsm
-; based on its current state and
-; the key.
+; FSM FSM-State 1String -> FSM-State
+; Return the next state of an-fsm in the
+; state current when given key.
 (define (next an-fsm current key)
-  (local ((define transitions (fsm-transitions an-fsm))
-
-          ; FSM-State [List-of 1Transition] -> FSM-State
-          ; Do the actual work.
-          (define (find-next current0 transitions0)
+  (local (; [List-of 1Transition] -> FSM-State
+          ; Find the next state of an-fsm from
+          ; the list of transitions lo1t given
+          ; the current state and key.
+          (define (find lo1t)
             (cond
-              [(empty? transitions0)
-               ER]
+              [(empty? lo1t) ER]
               [else
-               (if (and (string=? (transition-current (first transitions0))
-                                  current)
-                        (string=? (transition-key (first transitions0))
-                                  key))
-                   (transition-next (first transitions0))
-                   (find-next current0 (rest transitions0)))])))
+               (local ((define first-transition (first lo1t)))
+                 ; – IN –
+                 (if (and (string=? current
+                                    (transition-current first-transition))
+                          (string=? key (transition-key first-transition)))
+                     (transition-next first-transition)
+                     (find (rest lo1t))))])))
     ; – IN –
-    (find-next (fsm-initial an-fsm) transitions)))
+    (find (fsm-transitions an-fsm))))
 
+(check-expect (next fsm-a-bc*-d AA "a") BC)
+(check-expect (next fsm-a-bc*-d BC "b") BC)
+(check-expect (next fsm-a-bc*-d BC "c") BC)
+(check-expect (next fsm-a-bc*-d BC "d") DD)
 
-(check-expect (next fsm-a-bc*-d AA "a")
-              BC)
-(check-expect (next fsm-a-bc*-d BC "b")
-              BC)
-(check-expect (next fsm-a-bc*-d BC "c")
-              BC)
-(check-expect (next fsm-a-bc*-d BC "d")
-              DD)
+(check-expect (next fsm-a-bc*-d AA "b") ER)
+(check-expect (next fsm-a-bc*-d AA "c") ER)
+(check-expect (next fsm-a-bc*-d AA "d") ER)
+(check-expect (next fsm-a-bc*-d AA "j") ER)
 
-(check-expect (next fsm-a-bc*-d BC "a")
-              ER)
-(check-expect (next fsm-a-bc*-d AA "d")
-              ER)
-(check-expect (next fsm-a-bc*-d BC "r")
-              ER)
-
-; FSM FSM-State -> Boolean
-; Is current a legal state of an-fsm?
-(define (legal-state? an-fsm current)
-  (local ((define transitions (fsm-transitions an-fsm))
-          (define final (fsm-final an-fsm))
-
-          ; [List-of Transition] -> Boolean
-          ; Do the actual work.
-          (define (legal? lot)
-            (cond
-              [(empty? lot) #false]
-              [else
-               (if (or (string=? (transition-current (first lot)) current)
-                       (string=? final current))
-                   #true
-                   (legal? (rest lot)))])))
-    ; – IN –
-    (legal? transitions)))
-
-(check-expect (legal-state? fsm-a-bc*-d AA)
-              #true)
-(check-expect (legal-state? fsm-a-bc*-d BC)
-              #true)
-(check-expect (legal-state? fsm-a-bc*-d DD)
-              #true)
-(check-expect (legal-state? fsm-a-bc*-d ER)
-              #false)
+(check-expect (next fsm-a-bc*-d BC "a") ER)
+(check-expect (next fsm-a-bc*-d BC "k") ER)
