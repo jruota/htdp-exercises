@@ -18,9 +18,25 @@
 
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+; NOT NEEDED
+;(define 4QUEEN-SOLUTION-1
+;  (list  (make-posn 0 1) (make-posn 1 3)
+;         (make-posn 2 0) (make-posn 3 2)))
+;
+;(define 4QUEEN-SOLUTION-2
+;  (list  (make-posn 0 2) (make-posn 1 0)
+;         (make-posn 2 3) (make-posn 3 1)))
+
 (define NUMBER-ERROR "n must be less than (+ QUEENS 1)")
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+; N -> [Maybe [List-of QP]]
+; finds a solution to the n queens problem 
+(define (n-queens n)
+  #false)
+
+(check-satisfied (n-queens 4) (n-queens-solution? 4))
 
 ; N -> [[Maybe [List-of QP]] -> Boolean]
 ; Produce a predicate on queen placements that
