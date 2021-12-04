@@ -49,3 +49,6 @@
 ; case only one function call is needed to determine the result.
 ; In the worst case, the smallest number is at the end of the list. Then as many
 ; function calls as the list is long are necessary to determine the result.
+; In any case, because (infL (rest l)) is moved to a local and is evaluated only
+; once per recursive call,  infL uses on the order of n steps where n is the
+; number of elements in the list.
