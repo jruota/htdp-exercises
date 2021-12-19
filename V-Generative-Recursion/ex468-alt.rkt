@@ -1,6 +1,6 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
-#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex467) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex468-alt) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; An SOE is a non-empty Matrix.
@@ -45,9 +45,9 @@
                  (list 3 9 21)
                  (list 1 2)))
 
-(define M3 (list (list  2  2  3   10)
-                 (list     3  9   21)
-                 (list    -3 -8  -19)))
+(define M3 (list (list 2  2  3   10)
+                 (list 3  9   21)
+                 (list -3 -8  -19)))
  
 (define S '(1 1 2)) ; a Solution
 
@@ -61,18 +61,15 @@
 
 (define SolForM4 (list 1 1 1))
 
+(define M6 (list (list 2 2 2 6)
+                 (list 2 2 4 8)
+                 (list 2 2 1 2)))
+
 (define LENGTH-ERROR "equations must have the same length")
 (define LENGTH-ERROR2 "equation is too short")
 (define LENGTH-ERROR3 "list is too short")
 (define EMPTY-ERROR "the system of equations must be a non-empty Matrix")
-
-; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-; Does this algorithm terminate for all possible system of equations?
-
-    ; No, the subtract function will throw a division by zero error when all
-    ; rows start with 0. The rotate function will actually just inverse the
-    ; given matrix in that case.
+(define SOLUTION-ERROR "the system of equations has no solution")
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -81,6 +78,7 @@
 (define (triangulate M)
   (cond
     [(= (length M) 1) M]
+    [(all-leading-coefficients-zero? M) (error SOLUTION-ERROR)]
     [else
      (local (; SOE -> SOE
              ; Subtract a multiple of top from the equations in m,
@@ -93,44 +91,99 @@
                   (cons (subtract (first m) top)
                         (subtract-loop top (rest m)))])))
        ; – IN –
-        (cons (first M)
-              (triangulate
-               (rotate
+       (cons (first M)
+             (triangulate
+              (rotate
                ;(rotate-alt
-                (subtract-loop (first M) (rest M))))))]))
+               (subtract-loop (first M) (rest M))))))]))
 
 (check-expect (triangulate (list (list 1 2 3) (list 2 3 4)))
               (list (list 1 2 3) (list -1 -2))) 
-; The following test does not make sense here, since it violates the
-; Matrix definition.
-;(check-expect (triangulate M2) M2)
 (check-expect (triangulate M) M2)
 (check-expect (triangulate M4) M5)
+(check-error (triangulate M6))
+
+; SOE -> TM
+; Triangulate the given system of equations.
+(define (triangulate.v2 M)
+  (local (; SOE -> TM
+          ; Do the actual work.
+          (define (main M0)
+            (cond
+              [(= (length M0) 1) M0]
+              [else
+               (cons (first M)
+                     (triangulate
+                      (rotate
+                       (subtract-loop (first M0) (rest M0)))))]))
+          
+          ; SOE -> SOE
+          ; Subtract a multiple of top from the equations in m,
+          ; item by item, so that the resulting equations have a 0 in
+          ; the first position, i.e. the first coeffiecient is 0.
+          (define (subtract-loop top m)
+            (cond
+              [(empty? m) '()]
+              [else
+               (cons (subtract (first m) top)
+                     (subtract-loop top (rest m)))])))
+  ; – IN –
+  (cond
+    [(all-leading-coefficients-zero? M) (error SOLUTION-ERROR)]
+    [else (main M)])))
+
+(check-expect (triangulate.v2 (list (list 1 2 3) (list 2 3 4)))
+              (list (list 1 2 3) (list -1 -2))) 
+(check-expect (triangulate.v2 M) M2)
+(check-expect (triangulate.v2 M4) M5)
+(check-error (triangulate.v2 M6))
+
+
+; SOE -> Boolean
+; Are all leading coefficients
+; in soe zero?
+(define (all-leading-coefficients-zero? soe)
+  (cond
+    [(empty? soe) #true]
+    [else
+     (and (zero? (first (first soe)))
+          (all-leading-coefficients-zero? (rest soe)))]))
+
+(check-expect (all-leading-coefficients-zero? '())
+              #true)
+(check-expect (all-leading-coefficients-zero? M6)
+              #false)
+(check-expect (all-leading-coefficients-zero? (list (list 0 0 2 6)
+                                                    (list 0 0 -1 0)))
+              #true)
+             
+; from ex467-alt.rkt ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ; SOE -> SOE
-; Switch equations in soe so that those with
-; a leading coefficient of zero come last.
+; Find an equation with a leading coefficient that is not 0
+; and place it as the first row in soe.
 (define (rotate soe)
   (cond
-    [(empty? soe) '()]
-    [else
-     (if (zero? (first (first soe)))
-         (append (rotate (rest soe)) (list (first soe)))
-         (cons (first soe) (rotate (rest soe))))]))
+    [(zero? (first (first soe)))
+     (rotate (append (rest soe) (list (first soe))))]
+    [else soe]))
 
-(check-expect (rotate '()) '())
+; NOTE ------------------------------------
+; An SOE is defined as an non-empty Matrix.
+; END NOTE --------------------------------
+;(check-expect (rotate '()) '())
 (check-expect (rotate (list (list 0 1 2 3 4 5)
-                            (list 0 1 2 3 4 5)
-                            (list 0 1 2 3 4 5)
-                            (list 0 1 2 3 4 5)
+                            (list 0 2 3 4 5 6)
+                            (list 0 3 4 5 6 7)
+                            (list 0 4 5 6 7 8)
                             (list 1 2 3 4 5 6)
-                            (list 0 1 2 3 4 5)))
+                            (list 0 5 6 7 8 9)))
               (list (list 1 2 3 4 5 6)
+                    (list 0 5 6 7 8 9)
                     (list 0 1 2 3 4 5)
-                    (list 0 1 2 3 4 5)
-                    (list 0 1 2 3 4 5)
-                    (list 0 1 2 3 4 5)
-                    (list 0 1 2 3 4 5)))
+                    (list 0 2 3 4 5 6)
+                    (list 0 3 4 5 6 7)
+                    (list 0 4 5 6 7 8)))
 (check-expect (rotate M5) M5)
 
 ; SOE -> SOE
