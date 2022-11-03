@@ -3,6 +3,20 @@
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex354) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+(define-struct add [left right])
+; An Add is a structure:
+;     (make-add BSL-var-expr BSL-var-expr)
+; Interpretation:
+;     Represents an addition and
+;     its two operands.
+
+(define-struct mul [left right])
+; A Mul is a structure:
+;     (make-mul BSL-var-expr BSL-var-expr)
+; Interpretation:
+;     Represents a multiplication and
+;     its two operands.
+
 ; A BSL-var-expr is one of: 
 ; – Number
 ; – Symbol 
@@ -11,22 +25,8 @@
 
 ; A BSL-expr is one of:
 ; – Number
-; – Add
-; – Mul
-
-(define-struct add [left right])
-; An Add is a structure:
-;     (make-add BSL-expr BSL-expr)
-; Interpretation:
-;     Represents an addition and
-;     its two operands.
-
-(define-struct mul [left right])
-; A Mul is a structure:
-;     (make-mul BSL-expr BSL-expr)
-; Interpretation:
-;     Represents a multiplication and
-;     its two operands.
+; – (make-add BSL-var-expr BSL-var-expr)
+; – (make-mul BSL-var-expr BSL-var-expr)
 
 ; An AL (short for association list) is [List-of Association].
 

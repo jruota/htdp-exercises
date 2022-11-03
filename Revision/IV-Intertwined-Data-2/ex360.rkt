@@ -3,13 +3,6 @@
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex360) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; An Association is a list of two items:
-;     (cons Symbol (cons Number '())).
-; Interpretation:
-;     Represents a constant definition, where the first
-;     item is the name of the constant and the second
-;     its value.
-
 (define-struct add [left right])
 ; An Add is a structure:
 ;     (make-add BSL-fun-expr BSL-fun-expr)
@@ -47,6 +40,13 @@
 ; – (make-add BSL-fun-expr BSL-fun-expr)
 ; – (make-mul BSL-fun-expr BSL-fun-expr)
 ; – (make-func-appl Symbol BSL-fun-expr)
+
+; An Association is a list of two items:
+;     (cons Symbol (cons Number '())).
+; Interpretation:
+;     Represents a constant definition, where the first
+;     item is the name of the constant and the second
+;     its value.
 
 ; An AssocOrFuncDef is one of:
 ; – Association
@@ -93,6 +93,8 @@
 
 (check-expect (lookup-con-def da 'close-to-pi)
               CONSTANT)
+(check-error (lookup-con-def da 'volume-of-10-cylinder)
+             NO-SUCH-CONSTANT)
 (check-error (lookup-con-def da 'close-to_pi)
              NO-SUCH-CONSTANT)
 
@@ -115,12 +117,14 @@
               FUNC1)
 (check-expect (lookup-fun-def da 'volume-of-10-cylinder)
               FUNC2)
+(check-error (lookup-fun-def da 'close-to-pi)
+             NO-SUCH-FUNCTION)
 (check-error (lookup-fun-def da 'no-such-function)
              NO-SUCH-FUNCTION)
 
 ; [X] [X -> Boolean] [X -> Symbol] String -> [BSL-da-all Symbol -> X]
 ; Return a function that produces the representation of X whose name is x,
-; if such a piece of data exists in da. The function will Throw an error
+; if such a piece of data exists in da. The function will throw an error
 ; if there is no such representation.
 ; The function rt? (right type) is used to find the right type of
 ; data in da; the function extract is used to extract the name of
@@ -150,6 +154,8 @@
               (lookup-con-def da 'close-to-pi))
 (check-error (const-lookup da 'close_to-pi)
              NO-SUCH-CONSTANT)
+(check-error (const-lookup da 'volume-of-10-cylinder)
+             NO-SUCH-CONSTANT)
 
 (define func-lookup (lookup-abstract func-def? func-def-name NO-SUCH-FUNCTION))
 
@@ -157,12 +163,14 @@
               (lookup-fun-def da 'area-of-circle))
 (check-expect (func-lookup da 'volume-of-10-cylinder)
               (lookup-fun-def da 'volume-of-10-cylinder))
+(check-error (func-lookup da 'close-to-pi)
+             NO-SUCH-FUNCTION)
 (check-error (func-lookup da 'nie-ma-takiej-funkcji)
              NO-SUCH-FUNCTION)
 
 ; [X] [X -> Boolean] [X -> Symbol] String -> [BSL-da-all Symbol -> X]
 ; Return a function that produces the representation of X whose name is x,
-; if such a piece of data exists in da. The function will Throw an error
+; if such a piece of data exists in da. The function will throw an error
 ; if there is no such representation.
 ; The function rt? (right type) is used to find the right type of
 ; data in da; the function extract is used to extract the name of
@@ -195,6 +203,8 @@
               (lookup-con-def da 'close-to-pi))
 (check-error (const-lookup.v2 da 'close_to-pi)
              NO-SUCH-CONSTANT)
+(check-error (const-lookup.v2 da 'volume-of-10-cylinder)
+             NO-SUCH-CONSTANT)
 
 (define func-lookup.v2
   (lookup-abstract.v2 func-def? func-def-name NO-SUCH-FUNCTION))
@@ -203,5 +213,7 @@
               (lookup-fun-def da 'area-of-circle))
 (check-expect (func-lookup.v2 da 'volume-of-10-cylinder)
               (lookup-fun-def da 'volume-of-10-cylinder))
+(check-error (func-lookup.v2 da 'close-to-pi)
+             NO-SUCH-FUNCTION)
 (check-error (func-lookup.v2 da 'nie-ma-takiej-funkcji)
              NO-SUCH-FUNCTION)

@@ -27,7 +27,7 @@
 
 (define-struct func-def [name para body])
 ; A FuncDef (function definition) is a structure:
-;     (make-func-def Symbol Symbol BSL-fun-def)
+;     (make-func-def Symbol Symbol BSL-fun-expr)
 ; Interpretation:
 ;     Represents the definition of a one-parameter function.
 ;     The "name" field is the name of the function,

@@ -50,16 +50,8 @@
 
 ; DATA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; 1.
-(define (f x) (+ 3 x))
 (define F (make-func-def 'f 'x (make-add 3 'x)))
-
-; 2.
-(define (g y) (f (* 2 y)))
 (define G (make-func-def 'g 'y (make-func-appl 'f (make-mul 2 'y))))
-
-; 3.
-(define (h v) (+ (f v) (g v)))
 (define H
   (make-func-def 'h
                  'v
@@ -73,8 +65,8 @@
 
 ; FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; BSL-fun-expr BSL-fun-def* -> BSL-fun-def*
-; Produce the result from evaluating ex, assumin
+; BSL-fun-expr BSL-fun-def* -> Number
+; Produce the result from evaluating ex, assuming
 ; its definition is in da.
 (define (eval-function* ex da)
   (cond

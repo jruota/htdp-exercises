@@ -78,6 +78,8 @@
 (check-error (parse-sl (list '/ 3 4)) WRONG)
 (check-expect (parse-sl (list '+ 3 4)) (make-add 3 4))
 (check-expect (parse-sl (list '* 3 4)) (make-mul 3 4))
+(check-expect (parse-sl '(+ (* 2 (+ 3 5)) 10))
+              (make-add (make-mul 2 (make-add 3 5)) 10))
  
 ; Atom -> BSL-expr
 ; If s is a number, return s. Otherwise, throw

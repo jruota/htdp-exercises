@@ -3,13 +3,6 @@
 #reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname ex361) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
 ; DATA DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-; An Association is a list of two items:
-;     (cons Symbol (cons Number '())).
-; Interpretation:
-;     Represents a constant definition, where the first
-;     item is the name of the constant and the second
-;     its value.
-
 (define-struct add [left right])
 ; An Add is a structure:
 ;     (make-add BSL-fun-expr BSL-fun-expr)
@@ -47,6 +40,13 @@
 ; – (make-add BSL-fun-expr BSL-fun-expr)
 ; – (make-mul BSL-fun-expr BSL-fun-expr)
 ; – (make-func-appl Symbol BSL-fun-expr)
+
+; An Association is a list of two items:
+;     (cons Symbol (cons Number '())).
+; Interpretation:
+;     Represents a constant definition, where the first
+;     item is the name of the constant and the second
+;     its value.
 
 ; An AssocOrFuncDef is one of:
 ; – Association
@@ -131,7 +131,7 @@
 
 ; [X] [X -> Boolean] [X -> Symbol] String -> [BSL-da-all Symbol -> X]
 ; Return a function that produces the representation of X whose name is x,
-; if such a piece of data exists in da. The function will Throw an error
+; if such a piece of data exists in da. The function will throw an error
 ; if there is no such representation.
 ; The function rt? (right type) is used to find the right type of
 ; data in da; the function extract is used to extract the name of

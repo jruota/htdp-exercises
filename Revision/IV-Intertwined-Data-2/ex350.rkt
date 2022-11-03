@@ -13,4 +13,6 @@
 ;       [else ...])
 ;     ...
 ;
-; but instead it checks whether its argument is three elements long or not.
+; but instead it checks whether its argument is three elements long or not, and
+; if it is three elements long, directs further computation depending on the
+; first item in said argument.
